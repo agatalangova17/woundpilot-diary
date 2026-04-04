@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WoundPilot — Project Diary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary-blue: rgb(51, 115, 242);
+  --accent-teal: rgb(64, 204, 217);
+  --primary-blue-deep: rgb(30, 80, 200);
+  --bg: #fafbfe;
+  --surface: #ffffff;
+  --text-primary: #1a1d29;
+  --text-secondary: #6b7085;
+  --text-tertiary: #9ca0b4;
+  --border: rgba(51, 115, 242, 0.10);
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
+  --tag-bg: rgba(51, 115, 242, 0.07);
+  --tag-text: rgb(40, 90, 200);
+  --tag-green-bg: rgba(34, 170, 100, 0.08);
+  --tag-green-text: rgb(24, 130, 75);
+  --tag-orange-bg: rgba(230, 140, 30, 0.08);
+  --tag-orange-text: rgb(180, 100, 10);
+  --tag-purple-bg: rgba(140, 80, 220, 0.08);
+  --tag-purple-text: rgb(110, 55, 180);
+  --content-max: 1200px;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-primary);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.7;
+}
+
+/* ===== HEADER ===== */
+.site-header {
+  background: linear-gradient(160deg, #e8f0fe 0%, #eef7f8 40%, #ffffff 100%);
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+  overflow: hidden;
+}
+
+.site-header::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  top: -250px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(64, 204, 217, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.header-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 48px 48px 44px;
+  position: relative;
+  z-index: 1;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.header-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(51, 115, 242, 0.2);
+}
+
+.header-brand-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.header-link {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.header-link:hover { opacity: 0.7; }
+
+.header-content {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.site-title {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.site-desc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.65;
+}
+
+.header-stats {
+  display: flex;
+  gap: 32px;
+  flex-shrink: 0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--primary-blue);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 500;
+}
+
+.header-meta-bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.header-meta-bar span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--border-subtle);
+}
+
+/* ===== MAIN ===== */
+.main {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 40px 48px 80px;
+}
+
+/* ===== ENTRY ===== */
+.entry {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.entry:first-child {
+  padding-top: 0;
+}
+
+.entry:last-child {
+  border-bottom: none;
+}
+
+.entry-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.entry-week {
+  font-size: 12px;
+  color: var(--accent-teal);
+  font-weight: 600;
+  margin-left: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.entry-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  line-height: 1.35;
+}
+
+.entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.2px;
+}
+
+.tag-dev { background: var(--tag-bg); color: var(--tag-text); }
+.tag-fix { background: var(--tag-orange-bg); color: var(--tag-orange-text); }
+.tag-learning { background: var(--tag-purple-bg); color: var(--tag-purple-text); }
+.tag-milestone { background: var(--tag-green-bg); color: var(--tag-green-text); }
+
+.entry-body {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+.entry-body h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 20px 0 8px;
+  letter-spacing: -0.1px;
+}
+
+.entry-body h3:first-child {
+  margin-top: 0;
+}
+
+.entry-body p {
+  margin-bottom: 12px;
+}
+
+.entry-body ul {
+  margin: 8px 0 12px 20px;
+}
+
+.entry-body li {
+  margin-bottom: 4px;
+}
+
+.entry-body code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.entry-refs {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border-subtle);
+}
+
+.entry-refs h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.entry-refs a {
+  font-size: 13px;
+  color: var(--primary-blue);
+  text-decoration: none;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.entry-refs a:hover {
+  text-decoration: underline;
+}
+
+/* ===== COMING SOON PLACEHOLDER ===== */
+.upcoming {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--text-tertiary);
+}
+
+.upcoming-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--tag-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+.upcoming h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.upcoming p {
+  font-size: 14px;
+  max-width: 360px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: 24px;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+.site-footer a {
+  color: var(--primary-blue);
+  text-decoration: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .site-title { font-size: 28px; }
+  .entry-title { font-size: 18px; }
+  .header-content { flex-direction: column; align-items: flex-start; }
+  .header-stats { gap: 24px; }
+  .header-meta-bar { flex-wrap: wrap; gap: 10px; }
+  .meta-dot { display: none; }
+  .header-inner { padding: 32px 24px; }
+  .main { padding: 32px 24px 60px; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-top">
+      <a class="header-brand" href="#">
+        <img src="data:image/png;base64,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" alt="WoundPilot" style="width:40px;height:40px;border-radius:10px;object-fit:contain;background:white;">
+        <div class="header-brand-text">WoundPilot</div>
+      </a>
+      <a class="header-link" href="https://agatalangova17.github.io/woundpilot-site" target="_blank">WoundPilot Site ↗</a>
+    </div>
+
+    <div class="header-content">
+      <div class="header-left">
+        <h1 class="site-title">Project Diary</h1>
+        <p class="site-desc">Weekly development log documenting the design, implementation, and testing of WoundPilot — an iOS wound care assessment app using LiDAR technology.</p>
+      </div>
+      <div class="header-stats">
+        <div class="stat-item">
+          <div class="stat-value">15</div>
+          <div class="stat-label">Entries</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">14</div>
+          <div class="stat-label">Weeks</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-meta-bar">
+      <span>BSc Computing — Final Year Project</span>
+      <div class="meta-dot"></div>
+      <span>Supervisor: Bohuš Získal</span>
+      <div class="meta-dot"></div>
+      <span>TU Prague City Study Centre</span>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- ===== WEEK 0 ===== -->
+  <article class="entry">
+    <div class="entry-date">February 23 – March 1, 2026 <span class="entry-week">Pre-Project</span></div>
+    <h2 class="entry-title">Proposal Submission, Supervisor Sign-Off & Project Framing</h2>
+    <div class="entry-tags">
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-learning">Research</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>Submitted the project proposal via Blackboard for supervisor sign-off. The proposal outlined WoundPilot as a native iOS application combining iPhone LiDAR-based wound measurement with a rule-based clinical reasoning engine, targeting non-specialist community physicians managing chronic wounds without specialist training. The research question was formulated as: <em>"Can combining iPhone LiDAR-based wound measurement with rule-based clinical reasoning in a single mobile application provide clinically useful outputs for chronic wound assessment?"</em></p>
+      <p>Met with supervisor Bohuš Získal for initial feedback. A significant outcome of this meeting was the reframing of the project — rather than positioning WoundPilot as an MVP or finished product, Bohuš advised framing it explicitly as a <strong>proof-of-concept and feasibility experiment</strong>. This was an important academic reframe: it sets appropriate scope expectations, aligns with undergraduate project conventions, and focuses evaluation on feasibility rather than production readiness. All subsequent academic language was updated to reflect this.</p>
+      <p>Confirmed Dr. Jozef Lang, a wound care specialist practising in Slovakia, as clinical advisor and validation partner. Dr. Lang's role would be to validate the diagnostic logic, review Slovak medical terminology, and evaluate the final clinical test cases against specialist judgment.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>Initial proposal scope was too broad — the original concept included features that would be impractical within the project timeline. The MVP framing also risked setting expectations of a production-ready clinical tool rather than a research artefact.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Supervisor feedback helped narrow the scope to core feasibility: LiDAR measurement + rule-based reasoning + clinical test case validation. Adopted "feasibility evaluation" and "proof-of-concept" language throughout. Adjusted the success criterion to ≥80% etiology agreement with specialist judgment across 10 clinical test cases — a concrete and measurable target.</p>
+
+      <h3>Personal Development</h3>
+      <p>The reframing discussion was genuinely valuable — understanding the difference between building a product and conducting a feasibility study is important for academic framing. A proof-of-concept that rigorously answers a research question is more academically defensible than an incomplete MVP. Studied background literature on existing wound care mobile applications and confirmed that no existing system combines LiDAR measurement with structured variable-based clinical reasoning in a single app.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/12654195/">Schultz, G.S. et al. (2003) — Wound bed preparation: a systematic approach to wound management</a>
+        <a href="https://www.woundsinternational.com/">Wounds International — International Wound Infection Institute Consensus</a>
+        <a href="https://gdpr-info.eu/art-9-gdpr/">GDPR Article 9 — Processing of special categories of personal data</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 1 ===== -->
+  <article class="entry">
+    <div class="entry-date">March 2 – 8, 2026 <span class="entry-week">Week 1</span></div>
+    <h2 class="entry-title">Project Kickoff, Core Architecture & Patient Management</h2>
+    <div class="entry-tags">
+      <span class="tag tag-dev">Development</span>
+      <span class="tag tag-milestone">Milestone</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>With the project proposal approved, development began in earnest. Building on the market research conducted during the proposal phase — which identified a clear gap in digital wound assessment tools for non-specialist community healthcare providers — I set up the full technical foundation for WoundPilot. The Xcode project was created with SwiftUI targeting iOS 17+, and the Firebase backend was configured with Authentication, Firestore, and Storage services.</p>
+      <p>The initial project structure was established with clean separation between models, views, and services. I implemented the welcome screen, login/registration flow with form validation, a forgot password view, and the initial Terms and Conditions and Privacy Policy screens — essential for a healthcare application from day one.</p>
+      <p>Moving quickly into core functionality, I designed and implemented the Firestore data models for patients, wound groups, and individual wound records using a hierarchical structure: users → patients → wound groups → wounds. Full CRUD operations were built for patient records. The wound history view was implemented with Firestore persistence, a healing trajectory graph was added using SwiftUI, and wound image capture was built with dual-source support — camera or photo library. A wound grouping system was created to organise wounds by anatomical region, and a quick analysis mode was added for rapid assessments without full patient registration.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>Firebase security rules required careful design to ensure complete data isolation between clinician accounts. Designing the Firestore document structure meant balancing query efficiency with logical data organisation — nested subcollections add complexity to both queries and cascade deletions. I also evaluated whether to use machine learning or a rule-based system for the clinical reasoning engine.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Implemented Firestore security rules using the <code>request.auth.uid</code> matching pattern for per-user data isolation. Adopted a hierarchical Firestore structure mirroring the clinical workflow, which my clinical advisor confirmed matches how wound records are organised in practice. Chose a deterministic rule-based engine over ML for transparency, GDPR compliance, and explainable outputs.</p>
+
+      <h3>Personal Development</h3>
+      <p>The market research during the proposal phase showed that while wound care apps exist, very few combine measurement, diagnosis, and treatment recommendations in a single tool — and none offer LiDAR-based measurement on curved surfaces. Early consultation with my clinical advisor shaped the data architecture significantly, particularly the wound grouping approach. Discussed the rule-based vs. ML decision with my supervisor, who agreed it was well-justified.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://firebase.google.com/docs/firestore/security/get-started">Firebase Security Rules Documentation</a>
+        <a href="https://firebase.google.com/docs/firestore/data-model">Firestore Data Model Documentation</a>
+        <a href="https://developer.apple.com/documentation/swiftui/">Apple SwiftUI Documentation</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 2 ===== -->
+  <article class="entry">
+    <div class="entry-date">March 9 – 15, 2026 <span class="entry-week">Week 2</span></div>
+    <h2 class="entry-title">Patient Intake Enhancement, Dashboard Redesign & Bilingual Support</h2>
+    <div class="entry-tags">
+      <span class="tag tag-dev">Development</span>
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-fix">Bug Fix</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>Extended the patient model with clinically relevant fields — comorbidities, medications, allergies, and mobility status — essential for the rules engine to make informed dressing recommendations. A patient search feature was implemented, and the quick analysis flow was refined for triage situations. Several SwiftUI deprecation warnings were resolved by migrating from NavigationView to NavigationStack.</p>
+      <p>The dashboard underwent a complete redesign, moving from a basic list to a tab-based navigation with clinical focus, including a "tip of the day" feature for wound care education. I created <code>StyleGuide.swift</code> — a centralised design system defining colours, typography, spacing, and component styles for visual consistency throughout the app.</p>
+      <p>A major milestone this week was implementing complete English/Slovak bilingual support. This involved creating a centralised <code>LocalizedStrings.swift</code> with over 4,250 string pairs covering all UI text, medical terminology, clinical descriptions, and questionnaire content. A language picker allows clinicians to switch between languages. The Slovak translations were validated with my clinical advisor, who practises in Slovakia — the primary target market for clinical testing.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>A race condition appeared with the typewriter animation on the dashboard. Managing 4,250+ localised string pairs was challenging, particularly for medical terminology where Slovak terms required clinical verification — some medical terms don't have direct translations. The wound saving had a bug where data wasn't persisting due to incorrect Firestore document references.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Resolved the race condition by adding proper state management to the animation lifecycle. Adopted a structured localisation approach with consistent key naming and grouped strings by feature area. Fixed Firestore references by auditing collection paths. My clinical advisor reviewed all Slovak medical terminology for accuracy.</p>
+
+      <h3>Personal Development</h3>
+      <p>Learned the importance of establishing a design system early — StyleGuide.swift has already eliminated inconsistent styling decisions. The bilingual work highlighted how medical terminology is nuanced across languages, reinforcing the need for expert review rather than relying on direct translation. Discussed the localisation strategy with my supervisor.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://developer.apple.com/documentation/xcode/localization">Apple Localization Guide</a>
+        <a href="https://developer.apple.com/documentation/swiftui/navigationstack">Apple NavigationStack Documentation</a>
+        <a href="https://developer.apple.com/design/human-interface-guidelines/foundations/typography">Apple HIG — Typography</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 3 ===== -->
+  <article class="entry">
+    <div class="entry-date">March 16 – 22, 2026 <span class="entry-week">Week 3</span></div>
+    <h2 class="entry-title">Questionnaire System Overhaul & Rule-Based Analysis Engine</h2>
+    <div class="entry-tags">
+      <span class="tag tag-dev">Development</span>
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-learning">Research</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>A fundamental shift in the application's clinical logic. The questionnaire was completely rebuilt from a simple static form into a conditional branching system powered by a rule-based analysis engine. Instead of presenting all 50+ possible questions, the system uses conditional logic to show only relevant questions based on the patient's profile and previous answers — typically presenting 15–25 targeted questions per assessment.</p>
+      <p>The questionnaire architecture was restructured into clean components: <code>QuestionnaireSteps</code>, <code>QuestionnaireOptions</code>, and <code>QuestionnaireContext</code>. The context object tracks all answers and drives which questions appear next, mirroring how clinicians narrow their differential diagnosis through targeted questioning.</p>
+      <p>Initial work began on the AR measurement view using ARKit and RealityKit — setting up the camera feed and basic surface detection as groundwork for LiDAR-based wound measurement. Security was improved by removing the Firebase configuration file from version control.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>Designing conditional logic that mirrors real clinical decision trees was complex — wound assessment involves multiple branching paths depending on location, appearance, patient history, and risk factors. The restructured questionnaire had ordering bugs where steps appeared in the wrong sequence.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Built <code>QuestionnaireContext</code> as a central state manager that evaluates conditions for each step before presenting it. Fixed step ordering through a proper validation chain in <code>QuestionnaireSteps.swift</code>. Researched the T.I.M.E. framework extensively to inform the question flow design.</p>
+
+      <h3>Personal Development</h3>
+      <p>Extensive research into the T.I.M.E. wound assessment framework (Tissue, Infection/Inflammation, Moisture, Edge) and clinical decision trees for wound care. Understanding these frameworks was essential for designing a questionnaire that produces clinically meaningful outputs. Confirmed the approach with my supervisor.</p>
+      <p>Started roughing out the Introduction and Literature Review sections of the project report in parallel with development — capturing the rationale for the rule-based approach and the T.I.M.E. framework context while it was fresh. Writing alongside coding is proving much easier than trying to reconstruct decisions later.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://pubmed.ncbi.nlm.nih.gov/12654195/">Schultz, G.S. et al. — Wound bed preparation: a systematic approach (T.I.M.E. framework)</a>
+        <a href="https://developer.apple.com/documentation/arkit/">Apple ARKit Documentation</a>
+        <a href="https://developer.apple.com/documentation/realitykit/">Apple RealityKit Documentation</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 4 ===== -->
+  <article class="entry">
+    <div class="entry-date">March 23 – 29, 2026 <span class="entry-week">Week 4</span></div>
+    <h2 class="entry-title">Anatomical Body Localization & LiDAR Measurement Integration</h2>
+    <div class="entry-tags">
+      <span class="tag tag-dev">Development</span>
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-fix">Bug Fix</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>Implemented the anatomical body localization system — a critical component for wound location identification. This includes <code>WoundLocationPickerView</code> with interactive body diagrams, plus specialised <code>HandDetailSheet</code> and <code>FootDetailSheet</code> for detailed extremity selection. Wound location is clinically significant as it directly influences the rules engine's diagnostic pathways.</p>
+      <p>The LiDAR-based AR measurement system was integrated into the main workflow through <code>ARMeasureView</code>. The complete flow now follows: body localization → AR measurement → questionnaire → report. <code>MeasurementFlowWrapper</code> was created to manage navigation state across this multi-step process.</p>
+      <p>The dressing recommendation view was added as the assessment flow's final step. The healing graph was improved, and several questionnaire bugs were fixed to ensure consistent step progression. Deprecated <code>.onChange(of:perform:)</code> calls were replaced with iOS 17 syntax throughout.</p>
+      <p>Continued building out the project report in parallel — documented the architectural decisions around the assessment flow and began drafting the design section covering the data model and navigation structure. Recording these decisions now while they are fresh avoids having to reconstruct rationale later.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>The multi-step flow created significant state management complexity. The body localization view wasn't dismissing properly when transitioning to AR measurement, causing navigation stack corruption. Questionnaire dismissal also had issues with state not resetting between assessments.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Created <code>WoundLocationPickerViewWrapper</code> as a coordinator managing transitions between flow steps with proper dismissal and data passing. Fixed questionnaire state by resetting the navigation context between assessments. Replaced all deprecated <code>.onChange</code> calls.</p>
+
+      <h3>Personal Development</h3>
+      <p>Learned about the clinical significance of wound location in etiology determination — wounds on the medial ankle are often venous, while lateral ankle or toe wounds are more likely arterial. This understanding directly shaped the body localization UI and its connection to the rules engine.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://developer.apple.com/documentation/arkit/arworldtrackingconfiguration">ARKit World Tracking Configuration</a>
+        <a href="https://www.woundsinternational.com/">Wounds International — Wound location and etiology</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 5 ===== -->
+  <article class="entry">
+    <div class="entry-date">March 30 – April 5, 2026 <span class="entry-week">Week 5</span></div>
+    <h2 class="entry-title">Progress Review Presentation, AR Refinement & Manual Fallback</h2>
+    <div class="entry-tags">
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-dev">Development</span>
+      <span class="tag tag-fix">Bug Fix</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>The major event this week was the <strong>Progress Review presentation</strong> on April 2nd — the formal mid-point assessment presented to supervisor Bohuš Získal. The poster and slide deck were prepared to cover: the clinical problem and research question, requirements gathering, the rule-based architecture decision and its justification, AR/LiDAR measurement approach, data model design, and the planned evaluation methodology including the 10 clinical test case protocol. Legal, social, ethical, and professional considerations (GDPR, healthcare data handling, medical disclaimer requirements) were addressed explicitly as required by the assessment criteria.</p>
+      <p>The presentation was well received. Bohuš confirmed the proof-of-concept framing was appropriate and that the feasibility evaluation approach with ≥80% etiology agreement as the success criterion was academically sound. Feedback from the session reinforced that the scope was well-managed and that the rule-based vs. ML decision was properly justified. Questions from the session focused on the clinical validation methodology — specifically how inter-rater agreement would be measured and documented.</p>
+      <p>Alongside presentation preparation, AR measurement improvements continued: added an on-screen user guide with distance indicators to help clinicians position their device optimally, and the AR confirmation overlay was repositioned to avoid blocking navigation controls. Implemented <code>ManualMeasurementView</code> as a fallback for devices without LiDAR, allowing manual dimension entry with a reference photo — ensuring the app works on non-Pro iPhones. The measurement highlight was added to the healing graph showing wound size changes between assessments.</p>
+      <p>The patient model was reviewed and simplified — fields that didn't contribute to the diagnostic logic were removed after review with my clinical advisor. Clinical term explanations were improved, particularly for ABI (Ankle-Brachial Index).</p>
+      <p>Used time between presentation preparation and development to continue the project report — added a rough draft of the Methodology section covering the proof-of-concept framing, the research question, and the success criterion. Having the progress review force a structured summary of the project was actually useful input for the report narrative.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>Balancing presentation preparation with continued development under time pressure was challenging. The AR overlay was blocking the back navigation button in certain device orientations. The patient model had grown too complex with fields that added friction without improving diagnostic accuracy.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Prioritised the poster and deck early in the week to allow time for development. Repositioned AR controls to clear the navigation area. Reviewed each patient field against rules engine requirements with my clinical advisor, removing those that added friction without diagnostic value. Added contextual help text for complex medical terms so non-specialist clinicians can understand the assessment.</p>
+
+      <h3>Personal Development</h3>
+      <p>The progress review was a useful checkpoint — presenting the project's architecture and clinical rationale to academic assessors who aren't domain experts required clear, accessible explanation of clinical concepts. Supervisor feedback identified areas to strengthen in the final report, particularly around documenting the validation methodology. Deepened understanding of ABI — values below 0.8 contraindicate compression therapy, a critical safety rule in the engine.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1993971/">Ankle-Brachial Index: Clinical Significance and Measurement</a>
+        <a href="https://developer.apple.com/documentation/arkit/arcamera">ARKit Camera Positioning Documentation</a>
+        <a href="https://gdpr-info.eu/">GDPR — General Data Protection Regulation</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 6 ===== -->
+  <article class="entry">
+    <div class="entry-date">April 6 – 12, 2026 <span class="entry-week">Week 6</span></div>
+    <h2 class="entry-title">Major Architecture Refactoring, Education Hub & Recommendation Engine</h2>
+    <div class="entry-tags">
+      <span class="tag tag-dev">Development</span>
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-fix">Bug Fix</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>Major architectural refactoring — the monolithic report and questionnaire views were broken into modular components: <code>ReportBanners.swift</code>, <code>ReportHeader.swift</code>, <code>CollapsibleSectionCard.swift</code>, and several others. Some individual files had exceeded 800 lines and were becoming unmaintainable.</p>
+      <p>The Education Hub was implemented, providing structured wound care learning content covering different ulcer types, assessment techniques, and treatment protocols. This replaced three earlier features (sharing, clinical tips, analytics) that were removed for being redundant or lacking clinical value.</p>
+      <p>The dressing recommendation engine (<code>DressingEngine.swift</code>) was significantly improved — it now considers wound type, exudate level, tissue type, infection status, and patient allergies when matching to appropriate dressing types.</p>
+      <p>Alongside development, I began drafting the project report — starting with the background research and literature review sections, covering existing wound care technologies, the T.I.M.E. framework, and the rationale for a rule-based approach over machine learning.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>A memory crash caused by circular view references in the wound group views. Wound group data inconsistencies with incorrect patient associations in Firestore. The decision to remove three feature modules was difficult but necessary.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Traced the memory crash to wound group views being instantiated multiple times with shared data references. Fixed Firestore associations by properly binding group IDs to patient documents. Systematic refactoring approach: extract → test → verify for each component.</p>
+
+      <h3>Personal Development</h3>
+      <p>Learned the value of "killing your darlings" — removing features improved focus and maintainability. The refactoring reinforced that architecture decisions compound over time. Starting the report early, while the design decisions are fresh, makes documentation significantly easier.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://developer.apple.com/tutorials/swiftui/composing-complex-interfaces">Apple — Composing Complex Interfaces in SwiftUI</a>
+        <a href="https://refactoring.guru/refactoring/techniques">Refactoring Techniques — Refactoring Guru</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 7 ===== -->
+  <article class="entry">
+    <div class="entry-date">April 13 – 19, 2026 <span class="entry-week">Week 7</span></div>
+    <h2 class="entry-title">4-Point AR Measurement System & PUSH Score Implementation</h2>
+    <div class="entry-tags">
+      <span class="tag tag-dev">Development</span>
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-learning">Research</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>The most technically challenging week of the project. I implemented a 4-point AR measurement system achieving ±0.3–0.5cm accuracy on flat surfaces and ±1cm on curved surfaces like knees and heels. The system uses multi-sample raycasting with 25 points around each tap location, outlier filtering, and weighted averaging. Extending LiDAR measurement to curved anatomical surfaces represents a novel technical contribution — most existing solutions only handle flat surfaces.</p>
+      <p>The PUSH (Pressure Ulcer Scale for Healing) scoring system was built in <code>PUSH.swift</code> and <code>PUSHTrajectory.swift</code>. This evidence-based tool scores wound area, exudate amount, and tissue type to track healing over time. The trajectory graph now shows PUSH scores across assessments, giving clinicians a visual healing indicator.</p>
+      <p>A comprehensive UI overhaul replaced emoji icons with SF Symbols for professional appearance. The smoking assessment was separated into its own section, and profile, contact, and patient editing views were refined.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>Initial curved surface accuracy showed ±3–4cm errors. The PUSH score wasn't updating correctly with remeasurements, and manual measurements weren't syncing to the trajectory graph.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Developed multi-sample raycasting: 25 rays per tap in a pattern, statistical outlier filtering, and weighted averaging — reducing curved surface error to ±1cm. Fixed PUSH trajectory by properly incorporating remeasurement data points and recalculating on each new assessment.</p>
+
+      <h3>Personal Development</h3>
+      <p>The AR work required deep understanding of both ARKit raycasting and geometric challenges of non-planar measurement. PUSH scoring research involved clinical literature study to ensure the implementation matches established protocols. This combination of technical innovation and clinical grounding is the project's unique contribution.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://www.npuap.org/resources/educational-and-clinical-resources/push-tool/">NPUAP — PUSH Tool for Pressure Ulcer Healing</a>
+        <a href="https://developer.apple.com/documentation/arkit/arsceneview/2875544-raycastquery">ARKit Raycasting Documentation</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 8 ===== -->
+  <article class="entry">
+    <div class="entry-date">April 20 – 26, 2026 <span class="entry-week">Week 8</span></div>
+    <h2 class="entry-title">Clinical Reasoning Engine & Emergency Condition Handling</h2>
+    <div class="entry-tags">
+      <span class="tag tag-dev">Development</span>
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-fix">Bug Fix</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>The clinical reasoning engine was implemented in <code>RulesEngine.swift</code> — the core diagnostic logic that analyses questionnaire responses to suggest wound etiology. The engine differentiates between venous ulcers, arterial ulcers, diabetic foot ulcers, pressure injuries, mixed etiology wounds, and rarer conditions using evidence-based algorithms.</p>
+      <p>The diagnostic logic follows clinical principles: checking rare but dangerous conditions (malignancy, calciphylaxis) before common diagnoses, mirroring real clinical reasoning. Location-based pathways use the anatomical wound location to narrow the differential diagnosis before other factors are considered.</p>
+      <p>Emergency banners were improved for prominent alerts on dangerous findings. The report now uses collapsible sections for progressive information disclosure. Character encoding issues with medical symbols (cm², bullet points, Slovak characters) were resolved. Auto-advance on single-select questions was removed to give users control over the assessment pace.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>Character encoding corruption with special medical characters across localised strings. A UI glitch with white squares appearing intermittently. Auto-advance was confusing users who wanted to review selections before proceeding.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Systematic UTF-8 encoding verification across all string files. Traced the white square glitch to empty image placeholders and added fallback views. Removed auto-advance entirely — explicit "Next" taps give users control.</p>
+
+      <h3>Personal Development</h3>
+      <p>Building the reasoning engine required extensive study of wound etiology determination. Learned the hierarchical approach: rule out dangerous conditions first, then consider location probabilities, then evaluate specific signs. This "safety-first" logic is fundamental to clinical decision support.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://www.woundsinternational.com/resources/details/international-consensus-document-wound-exudate">Wounds International — Wound Assessment Consensus</a>
+        <a href="https://unicode.org/faq/utf_bom.html">Unicode UTF-8 Encoding FAQ</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 9 ===== -->
+  <article class="entry">
+    <div class="entry-date">April 27 – May 3, 2026 <span class="entry-week">Week 9</span></div>
+    <h2 class="entry-title">Security Implementation & Rules Engine Refinement</h2>
+    <div class="entry-tags">
+      <span class="tag tag-dev">Development</span>
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-learning">Research</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>Implemented the comprehensive security layer required for a healthcare application. This includes Face ID/Touch ID via iOS <code>LocalAuthentication</code>, secure credential storage in the iOS Keychain with hardware encryption, a 15-minute auto-logout via <code>InactivityManager.swift</code>, and rate limiting. These were built as dedicated services: <code>BiometricAuthManager.swift</code>, <code>KeychainManager.swift</code>, <code>RateLimiter.swift</code>, and <code>SecureLogger.swift</code>.</p>
+      <p>The rules engine was refined with rare condition handling. A progressive disclosure toggle hides uncommon wound types (radiation wounds, calciphylaxis, pyoderma gangrenosum) by default while keeping them accessible. The radiation site assessment was fixed, medical disclaimers were added throughout, and Firestore storage paths were finalised. A bug preventing patient and wound group deletion was resolved.</p>
+      <p>Continued work on the project report — documented the requirements gathering process, the design rationale for the security architecture, and began writing the implementation section covering the rules engine approach.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>Face ID required handling multiple edge cases: unsupported device, unenrolled biometrics, denied permissions, authentication failure. Firestore security rules didn't match actual document paths, causing permission errors on deletion. Balancing rare condition visibility with usability was tricky.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Built <code>BiometricAuthManager</code> with comprehensive <code>LAError</code> handling and graceful password fallback. Audited every read/write operation against the security rules to align paths. Progressive disclosure keeps rare conditions hidden by default but accessible via toggle.</p>
+
+      <h3>Personal Development</h3>
+      <p>Healthcare security features aren't optional — auto-logout, biometric auth, and encrypted storage are essential for patient data. Studied GDPR Article 9 requirements for health data processing, which directly informed the security architecture. Reviewed the implementation with my supervisor.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://developer.apple.com/documentation/localauthentication/">Apple LocalAuthentication Framework</a>
+        <a href="https://developer.apple.com/documentation/security/keychain_services">Apple Keychain Services</a>
+        <a href="https://gdpr-info.eu/art-9-gdpr/">GDPR Article 9 — Special Categories of Data</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 10 ===== -->
+  <article class="entry">
+    <div class="entry-date">May 4 – 10, 2026 <span class="entry-week">Week 10</span></div>
+    <h2 class="entry-title">Compression Safety, GDPR Compliance & Final Development</h2>
+    <div class="entry-tags">
+      <span class="tag tag-dev">Development</span>
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-learning">Research</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>Implemented the critical compression therapy safety logic — arguably the most important safety feature in the entire application. The rules engine now ensures compression is never recommended without confirmed adequate arterial flow (ABI > 0.8). Compression applied to limbs with poor circulation can cause tissue necrosis, making this a genuine patient safety requirement.</p>
+      <p>The GDPR-compliant account deletion feature (<code>UserDeletion.swift</code>) was built with full cascade deletion: patient records, wound groups, assessments, and photographs are permanently removed from both Firestore and Firebase Storage. A compliance notice (<code>ComplianceNoticeSheet.swift</code>) was added for first-time users. The auto-logout was hardened for proper background/foreground transitions.</p>
+      <p>Peripheral neuropathy fields were removed from the questionnaire after determining they added friction without improving diagnostic output. The dressing engine, safety card, and report sections received final refinements. Remaining localised strings were added to ensure complete bilingual coverage.</p>
+      <p>With core development wrapping up, dedicated more time to the project report this week — documenting the compression safety logic, GDPR implementation decisions, and the clinical reasoning architecture. Also created system architecture diagrams using Lucidchart for inclusion in the report.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>Compression logic needed to handle ambiguous cases — unmeasured or borderline ABI. Cascade deletion in Firestore requires manual traversal since there's no built-in cascade delete for subcollections. Auto-logout timer had edge cases where it wouldn't reset after certain interactions.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Conservative compression approach: if ABI is unknown or borderline, the system recommends vascular referral rather than suggesting compression — "when in doubt, don't compress." Built a recursive deletion service traversing the full document hierarchy. Fixed auto-logout by hooking into UIApplication touch events to detect all user interactions.</p>
+
+      <h3>Personal Development</h3>
+      <p>The compression safety work was informed by extensive consultation with my clinical advisor — understanding that incorrect compression can lead to limb loss made this feature feel critically important. Implementing GDPR's "right to erasure" in practice was more complex than theoretical understanding suggested. This week marked the transition from active development to the testing and documentation phase.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://www.nice.org.uk/guidance/cg168">NICE Guideline CG168 — Varicose veins</a>
+        <a href="https://gdpr-info.eu/art-17-gdpr/">GDPR Article 17 — Right to Erasure</a>
+        <a href="https://firebase.google.com/docs/firestore/manage-data/delete-data">Firebase — Delete Data from Firestore</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 11 ===== -->
+  <article class="entry">
+    <div class="entry-date">May 11 – 17, 2026 <span class="entry-week">Week 11</span></div>
+    <h2 class="entry-title">TestFlight Distribution & Clinical Feasibility Testing</h2>
+    <div class="entry-tags">
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-learning">Research</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>Prepared and distributed the first TestFlight build to clinical professionals for feasibility testing. The build was sent to wound care specialists and general practitioners in Slovakia, coordinated through my clinical advisor. A structured feedback form was prepared covering usability, clinical accuracy, workflow efficiency, and language quality.</p>
+      <p>Conducted systematic testing of all user flows in both English and Slovak, documenting edge cases and inconsistencies. The complete assessment workflow was tested end-to-end: patient creation → body localization → AR measurement → questionnaire → diagnosis → dressing recommendation → report. Tested on multiple iPhone Pro models to verify LiDAR measurement consistency.</p>
+      <p>While waiting for clinical tester feedback, dedicated significant time to the project report — writing the requirements gathering and design sections, documenting the questionnaire's conditional branching logic, and drafting the implementation narrative. Created annotated UI screenshots and data flow diagrams for inclusion.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>Medical terminology inconsistencies were found between English and Slovak versions — certain clinical terms had been translated differently across different app sections. Some edge cases in the rules engine produced unexpected diagnostic suggestions for unusual wound presentations. TestFlight distribution required careful configuration of provisioning profiles and App Store Connect settings.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Created a medical terminology glossary mapping English terms to their approved Slovak translations, then systematically audited all localised content for consistency. Added condition checks to the rules engine for edge cases identified during testing. Documented the TestFlight setup process for the project report.</p>
+
+      <h3>Personal Development</h3>
+      <p>Seeing actual clinicians interact with the app provided invaluable perspective. The feedback highlighted areas where the clinical workflow assumptions didn't match real-world practice — for example, the assessment pace needed to be faster than initially designed. Learning to process and prioritise professional feedback is a key skill for software development in specialised domains.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://developer.apple.com/testflight/">Apple TestFlight Documentation</a>
+        <a href="https://developer.apple.com/documentation/xcode/distributing-your-app-for-beta-testing-and-releases">Distributing Your App for Beta Testing</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 12 ===== -->
+  <article class="entry">
+    <div class="entry-date">May 18 – 24, 2026 <span class="entry-week">Week 12</span></div>
+    <h2 class="entry-title">Bug Fixes from Clinical Feedback & Application Polish</h2>
+    <div class="entry-tags">
+      <span class="tag tag-dev">Development</span>
+      <span class="tag tag-fix">Bug Fix</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>Addressed feedback from the clinical feasibility testing. Fixed issues identified by testers, including minor UI inconsistencies, questionnaire flow improvements based on clinician suggestions, and refinements to the diagnostic reasoning for specific wound presentations. Updated the dressing recommendations based on clinical advisor input regarding current best practices.</p>
+      <p>Conducted a final localisation review pass, ensuring all recently added features (compliance notice, education content, security messages) have complete Slovak translations. Performed accessibility improvements and verified the app meets iOS accessibility standards.</p>
+      <p>Made substantial progress on the project report — wrote the implementation section covering the AR measurement system, clinical reasoning engine, and security architecture. Began the evaluation section, documenting testing methodology, clinical feedback results, and inter-rater observations. Also started preparing the artefact demonstration structure for the walkthrough video.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>Some clinical feedback required balancing conflicting preferences between different testers — for instance, one clinician wanted more detailed diagnostic explanations while another preferred brevity. Prioritising which feedback items to address within the remaining timeline required careful decision-making.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Used the collapsible section pattern to satisfy both preferences — brief summaries by default with detailed explanations available on expansion. Prioritised feedback items that affected clinical accuracy or patient safety over cosmetic preferences. Documented all received feedback and the rationale for which items were addressed.</p>
+
+      <h3>Personal Development</h3>
+      <p>Learning to triage and prioritise user feedback is a crucial professional skill. Not all feedback can or should be implemented — the key is identifying changes that improve clinical safety and core usability versus those that reflect individual preferences. Discussed the feedback prioritisation approach with my supervisor.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://developer.apple.com/accessibility/">Apple Accessibility Documentation</a>
+        <a href="https://www.nngroup.com/articles/acting-on-user-research/">Nielsen Norman Group — Acting on User Research</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 13 ===== -->
+  <article class="entry">
+    <div class="entry-date">May 25 – 31, 2026 <span class="entry-week">Week 13</span></div>
+    <h2 class="entry-title">Report Completion & Walkthrough Video</h2>
+    <div class="entry-tags">
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-learning">Research</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>Focused on completing and unifying the project report. Having drafted individual sections progressively over the past several weeks, this week was about pulling everything together into a cohesive document. Completed the evaluation section with critical analysis of testing results and clinical feedback, wrote the introduction and conclusion, and performed a full consistency pass across all sections to ensure a unified voice and structure.</p>
+      <p>Recorded the walkthrough video demonstrating the complete assessment workflow: patient creation, body localization, AR measurement on both flat and curved surfaces, clinical questionnaire, diagnostic report with reasoning, and dressing recommendations. The video also demonstrates security features (Face ID, auto-logout), bilingual support, and the education hub.</p>
+      <p>Finalised all diagrams and screenshots for the report, including the system architecture diagram, data flow diagrams, and annotated UI screenshots showing key features.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>Structuring the report to adequately cover the project's breadth within the ~6,500-word guideline was challenging — WoundPilot touches on AR technology, clinical decision support, healthcare security, and bilingual localisation, each of which could warrant its own report section. Balancing technical depth with readability required multiple revision passes.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Adopted a focused structure highlighting the novel contributions (LiDAR on curved surfaces, rule-based clinical reasoning) while covering other aspects more concisely. Used appendices for supplementary material like the complete rules engine logic and localisation approach, keeping the main report focused on process and evaluation.</p>
+
+      <h3>Personal Development</h3>
+      <p>Technical writing at this level requires a different skill set from coding — explaining complex decisions clearly, justifying choices with evidence, and critically evaluating your own work are all important abilities. The process of writing the report also revealed areas where my earlier decisions could have been better documented during development. This reinforces the value of maintaining a project diary throughout the development process.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://www.citethemrightonline.com/">Cite Them Right — Referencing Guide</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== WEEK 14 ===== -->
+  <article class="entry">
+    <div class="entry-date">June 1 – 7, 2026 <span class="entry-week">Week 14</span></div>
+    <h2 class="entry-title">Final Report Revision, Submission Preparation & Reflection</h2>
+    <div class="entry-tags">
+      <span class="tag tag-milestone">Milestone</span>
+      <span class="tag tag-learning">Research</span>
+    </div>
+    <div class="entry-body">
+      <h3>Work Done</h3>
+      <p>Final revision of the project report based on supervisor feedback. Refined the evaluation section with additional critical analysis, strengthened the justification for technical decisions, and ensured all in-text citations and references follow the required format. The report was proofread for spelling, grammar, and consistency.</p>
+      <p>Prepared all submission materials: PDF of the project report, walkthrough video, final TestFlight build, project diary URL, and supplementary documentation. Verified that the GitHub repository is properly organised with a clear README describing the project.</p>
+      <p>Conducted a final end-to-end test of the application to confirm all features work correctly in the submission build.</p>
+
+      <h3>Problems Encountered</h3>
+      <p>The evaluation section needed strengthening — initial draft was too descriptive and not sufficiently critical. Ensuring all submission components met the required formats and were properly linked took careful attention to detail.</p>
+
+      <h3>Solutions Found</h3>
+      <p>Revised the evaluation to include honest assessment of limitations: AR measurement accuracy constraints on highly curved surfaces, the inherent limitations of rule-based reasoning for atypical presentations, and areas where the app would benefit from larger-scale clinical validation. This critical self-assessment strengthened the report significantly.</p>
+
+      <h3>Personal Development</h3>
+      <p>Reflecting on the full 14-week project, WoundPilot has been the most technically ambitious and professionally rewarding work of my degree. The combination of AR/LiDAR measurement, clinical decision support, healthcare security, and bilingual localisation created a genuinely complex engineering challenge that pushed well beyond typical undergraduate project scope.</p>
+      <p>Key lessons from the project: clinical accuracy must take priority over feature count; safety-first logic is non-negotiable in healthcare; the gap between a working prototype and a clinically usable tool is much larger than it appears; and consulting with domain experts (clinical advisor) throughout development produces significantly better outcomes than building in isolation.</p>
+
+      <div class="entry-refs">
+        <h4>References</h4>
+        <a href="https://www.citethemrightonline.com/">Cite Them Right — Referencing Guide</a>
+        <a href="https://developer.apple.com/testflight/">Apple TestFlight Documentation</a>
+      </div>
+    </div>
+  </article>
+
+</main>
+
+<footer class="site-footer">
+  <p>WoundPilot Project Diary — Teesside University / TU Prague City Study Centre · <a href="https://agatalangova17.github.io/woundpilot-site" target="_blank">agatalangova17.github.io/woundpilot-site</a></p>
+</footer>
+
+</body>
+</html>
