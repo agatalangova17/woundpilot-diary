@@ -515,394 +515,292 @@ body {
 </article>
 
   <!-- ===== WEEK 3 ===== -->
-  <article class="entry">
-    <div class="entry-date">March 16 – 22, 2026 <span class="entry-week">Week 3</span></div>
-    <h2 class="entry-title">Questionnaire System Overhaul & Rule-Based Analysis Engine</h2>
-    <div class="entry-tags">
-      <span class="tag tag-dev">Development</span>
-      <span class="tag tag-milestone">Milestone</span>
-      <span class="tag tag-learning">Research</span>
+<article class="entry">
+  <div class="entry-date">March 16 – 22, 2026 <span class="entry-week">Week 3</span></div>
+  <h2 class="entry-title">Wound Groups, Image Capture & Proposal Sign-Off</h2>
+  <div class="entry-tags">
+    <span class="tag tag-dev">Development</span>
+    <span class="tag tag-milestone">Milestone</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>Built the wound grouping system, which organises wounds by anatomical region underneath each patient record. This included the wound group picker, the per-patient wound list, and the navigation between a patient's record and the wounds they have on file. The group abstraction matches how a single patient can present with multiple wounds at the same time (for example, several pressure injuries in different locations) and needed to be in place before the wound-level features could be built on top.</p>
+    <p>Implemented wound image capture with dual-source support, allowing the user to either take a new photo using the camera or pick one from the photo library. Photographs upload to Firebase Storage with the upload paths protected by the security rules established in Week 2. Added the first version of a healing trajectory graph in SwiftUI, designed to later plot wound size changes between assessments once the measurement flow was built.</p>
+    <p>Received official proposal sign-off. The Zoom call that followed reframed the project from MVP to proof of concept and introduced the ≥80% etiology agreement success criterion ahead of the Progress Review. The implications for the development plan were immediate: the deliverable was now a feasibility artefact rather than a feature-complete product, which gave a clearer cut-off for what should and should not be in scope.</p>
+  
+
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://firebase.google.com/docs/storage">Firebase, Cloud Storage Documentation</a>
+      <a href="https://developer.apple.com/documentation/photokit">Apple, PhotoKit Documentation</a>
+      <a href="https://developer.apple.com/documentation/swiftui/charts">Apple, SwiftUI Charts Documentation</a>
     </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>A fundamental shift in the application's clinical logic. The questionnaire was completely rebuilt from a simple static form into a conditional branching system powered by a rule-based analysis engine. Instead of presenting all 50+ possible questions, the system uses conditional logic to show only relevant questions based on the patient's profile and previous answers — typically presenting 15–25 targeted questions per assessment.</p>
-      <p>The questionnaire architecture was restructured into clean components: <code>QuestionnaireSteps</code>, <code>QuestionnaireOptions</code>, and <code>QuestionnaireContext</code>. The context object tracks all answers and drives which questions appear next, mirroring how clinicians narrow their differential diagnosis through targeted questioning.</p>
-      <p>Initial work began on the AR measurement view using ARKit and RealityKit — setting up the camera feed and basic surface detection as groundwork for LiDAR-based wound measurement. Security was improved by removing the Firebase configuration file from version control.</p>
+  </div>
+</article>
 
-      <h3>Problems Encountered</h3>
-      <p>Designing conditional logic that mirrors real clinical decision trees was complex — wound assessment involves multiple branching paths depending on location, appearance, patient history, and risk factors. The restructured questionnaire had ordering bugs where steps appeared in the wrong sequence.</p>
-
-      <h3>Solutions Found</h3>
-      <p>Built <code>QuestionnaireContext</code> as a central state manager that evaluates conditions for each step before presenting it. Fixed step ordering through a proper validation chain in <code>QuestionnaireSteps.swift</code>. Researched the T.I.M.E. framework extensively to inform the question flow design.</p>
-
-      <h3>Personal Development</h3>
-      <p>Extensive research into the T.I.M.E. wound assessment framework (Tissue, Infection/Inflammation, Moisture, Edge) and clinical decision trees for wound care. Understanding these frameworks was essential for designing a questionnaire that produces clinically meaningful outputs. Confirmed the approach with my supervisor.</p>
-      <p>Started roughing out the Introduction and Literature Review sections of the project report in parallel with development — capturing the rationale for the rule-based approach and the T.I.M.E. framework context while it was fresh. Writing alongside coding is proving much easier than trying to reconstruct decisions later.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://pubmed.ncbi.nlm.nih.gov/12654195/">Schultz, G.S. et al. — Wound bed preparation: a systematic approach (T.I.M.E. framework)</a>
-        <a href="https://developer.apple.com/documentation/arkit/">Apple ARKit Documentation</a>
-        <a href="https://developer.apple.com/documentation/realitykit/">Apple RealityKit Documentation</a>
-      </div>
-    </div>
-  </article>
 
   <!-- ===== WEEK 4 ===== -->
-  <article class="entry">
-    <div class="entry-date">March 23 – 29, 2026 <span class="entry-week">Week 4</span></div>
-    <h2 class="entry-title">Anatomical Body Localization & LiDAR Measurement Integration</h2>
-    <div class="entry-tags">
-      <span class="tag tag-dev">Development</span>
-      <span class="tag tag-milestone">Milestone</span>
-      <span class="tag tag-fix">Bug Fix</span>
+<article class="entry">
+  <div class="entry-date">March 23 – 29, 2026 <span class="entry-week">Week 4</span></div>
+  <h2 class="entry-title">Anatomical Body Localization, AR Scaffolding & Advisor Sessions</h2>
+  <div class="entry-tags">
+    <span class="tag tag-dev">Development</span>
+    <span class="tag tag-milestone">Milestone</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>Built the anatomical body localization flow, which is how the clinician tells the app where on the body a wound sits. The main view, WoundLocationPickerView, uses an interactive body diagram, and the more anatomically dense areas (hands and feet) have their own dedicated detail sheets, HandDetailSheet and FootDetailSheet, so the user can pick specific anatomical sites. The clinical advisor noted that the hand and foot needed this extra granularity in particular, because wound behaviour and treatment differ meaningfully between sites on the same extremity. Wound location matters clinically because it is one of the strongest signals for narrowing down etiology before any other assessment is done.</p>
+    <p>Started the AR measurement view by setting up <code>ARMeasureView</code> using ARKit and RealityKit. At that point I had to get the camera feed running, configuring the world tracking session, confirming LiDAR was available on supported devices, and laying down the architecture that the actual 4-point measurement system would later be added into.</p>
+    <p>Held a second round of detailed discussions with Dr. Lang in the run-up to the Progress Review. The focus this time was on confirming that the planned rule cascade matched how specialists actually order their differential diagnosis. </p>
+    <p>Continued the project report in parallel, writing up the design rationale for the data model and the assessment flow while those decisions were fresh.</p>
+
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://developer.apple.com/documentation/arkit/arworldtrackingconfiguration">Apple, ARKit ARWorldTrackingConfiguration Documentation</a>
+      <a href="https://developer.apple.com/documentation/arkit/scenedepth">Apple, ARKit Scene Depth Documentation</a>
+      <a href="https://doi.org/10.1136/bmj.332.7537.347">Grey, Harding & Enoch (2006), Venous and arterial leg ulcers</a>
     </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>Implemented the anatomical body localization system — a critical component for wound location identification. This includes <code>WoundLocationPickerView</code> with interactive body diagrams, plus specialised <code>HandDetailSheet</code> and <code>FootDetailSheet</code> for detailed extremity selection. Wound location is clinically significant as it directly influences the rules engine's diagnostic pathways.</p>
-      <p>The LiDAR-based AR measurement system was integrated into the main workflow through <code>ARMeasureView</code>. The complete flow now follows: body localization → AR measurement → questionnaire → report. <code>MeasurementFlowWrapper</code> was created to manage navigation state across this multi-step process.</p>
-      <p>The dressing recommendation view was added as the assessment flow's final step. The healing graph was improved, and several questionnaire bugs were fixed to ensure consistent step progression. Deprecated <code>.onChange(of:perform:)</code> calls were replaced with iOS 17 syntax throughout.</p>
-      <p>Continued building out the project report in parallel — documented the architectural decisions around the assessment flow and began drafting the design section covering the data model and navigation structure. Recording these decisions now while they are fresh avoids having to reconstruct rationale later.</p>
-
-      <h3>Problems Encountered</h3>
-      <p>The multi-step flow created significant state management complexity. The body localization view wasn't dismissing properly when transitioning to AR measurement, causing navigation stack corruption. Questionnaire dismissal also had issues with state not resetting between assessments.</p>
-
-      <h3>Solutions Found</h3>
-      <p>Created <code>WoundLocationPickerViewWrapper</code> as a coordinator managing transitions between flow steps with proper dismissal and data passing. Fixed questionnaire state by resetting the navigation context between assessments. Replaced all deprecated <code>.onChange</code> calls.</p>
-
-      <h3>Personal Development</h3>
-      <p>Learned about the clinical significance of wound location in etiology determination — wounds on the medial ankle are often venous, while lateral ankle or toe wounds are more likely arterial. This understanding directly shaped the body localization UI and its connection to the rules engine.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://developer.apple.com/documentation/arkit/arworldtrackingconfiguration">ARKit World Tracking Configuration</a>
-        <a href="https://www.woundsinternational.com/">Wounds International — Wound location and etiology</a>
-      </div>
-    </div>
-  </article>
+  </div>
+</article>
 
   <!-- ===== WEEK 5 ===== -->
-  <article class="entry">
-    <div class="entry-date">March 30 – April 5, 2026 <span class="entry-week">Week 5</span></div>
-    <h2 class="entry-title">Progress Review Presentation, AR Refinement & Manual Fallback</h2>
-    <div class="entry-tags">
-      <span class="tag tag-milestone">Milestone</span>
-      <span class="tag tag-dev">Development</span>
-      <span class="tag tag-fix">Bug Fix</span>
+<article class="entry">
+  <div class="entry-date">March 30 – April 5, 2026 <span class="entry-week">Week 5</span></div>
+  <h2 class="entry-title">Progress Review Presentation, AR Refinement & Manual Fallback</h2>
+  <div class="entry-tags">
+    <span class="tag tag-milestone">Milestone</span>
+    <span class="tag tag-dev">Development</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>The <strong>Progress Review</strong> was delivered on 2 April, presenting the renewed research question, success criterion, and refined scope and requirements.</p>
+    <p>Added an on-screen guide with distance indicators to help the clinician position the device at the right working range. (This was not fully finished by submission and is listed as future work in the report.) Repositioned the AR confirmation overlay so it no longer overlapped the back-navigation control in certain device orientations.</p>
+    <p>Reviewed the patient model with Dr. Lang and removed the fields that turned out not to drive any diagnostic or treatment decision in practice, since these were adding friction to data entry without contributing clinical value. Added inline contextual help for medical terms that a non-specialist clinician might not know.</p>
+    <p>Used time between presentation preparation and development to continue writing the report, drafting the Methodology section while the proof-of-concept framing and the success criterion were fresh.</p>
+
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1993971/">Ankle-Brachial Index: Clinical Significance and Measurement</a>
+      <a href="https://developer.apple.com/documentation/arkit/arcamera">Apple, ARKit ARCamera Documentation</a>
+      <a href="https://gdpr-info.eu/">GDPR, General Data Protection Regulation</a>
     </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>The major event this week was the <strong>Progress Review presentation</strong> on April 2nd — the formal mid-point assessment presented to supervisor Bohuš Získal. The poster and slide deck were prepared to cover: the clinical problem and research question, requirements gathering, the rule-based architecture decision and its justification, AR/LiDAR measurement approach, data model design, and the planned evaluation methodology including the 10 clinical test case protocol. Legal, social, ethical, and professional considerations (GDPR, healthcare data handling, medical disclaimer requirements) were addressed explicitly as required by the assessment criteria.</p>
-      <p>The presentation was well received. Bohuš confirmed the proof-of-concept framing was appropriate and that the feasibility evaluation approach with ≥80% etiology agreement as the success criterion was academically sound. Feedback from the session reinforced that the scope was well-managed and that the rule-based vs. ML decision was properly justified. Questions from the session focused on the clinical validation methodology — specifically how inter-rater agreement would be measured and documented.</p>
-      <p>Alongside presentation preparation, AR measurement improvements continued: added an on-screen user guide with distance indicators to help clinicians position their device optimally, and the AR confirmation overlay was repositioned to avoid blocking navigation controls. Implemented <code>ManualMeasurementView</code> as a fallback for devices without LiDAR, allowing manual dimension entry with a reference photo — ensuring the app works on non-Pro iPhones. The measurement highlight was added to the healing graph showing wound size changes between assessments.</p>
-      <p>The patient model was reviewed and simplified — fields that didn't contribute to the diagnostic logic were removed after review with my clinical advisor. Clinical term explanations were improved, particularly for ABI (Ankle-Brachial Index).</p>
-      <p>Used time between presentation preparation and development to continue the project report — added a rough draft of the Methodology section covering the proof-of-concept framing, the research question, and the success criterion. Having the progress review force a structured summary of the project was actually useful input for the report narrative.</p>
+  </div>
+</article>
 
-      <h3>Problems Encountered</h3>
-      <p>Balancing presentation preparation with continued development under time pressure was challenging. The AR overlay was blocking the back navigation button in certain device orientations. The patient model had grown too complex with fields that added friction without improving diagnostic accuracy.</p>
+ <!-- ===== WEEK 6 ===== -->
+<article class="entry">
+  <div class="entry-date">April 6 – 12, 2026 <span class="entry-week">Week 6</span></div>
+  <h2 class="entry-title">Questionnaire Architecture & T.I.M.E. Framework Research</h2>
+  <div class="entry-tags">
+    <span class="tag tag-dev">Development</span>
+    <span class="tag tag-milestone">Milestone</span>
+    <span class="tag tag-learning">Research</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>Rebuilt the clinical questionnaire from a flat static form into a conditional branching system. Instead of presenting the full set of more than 50 possible questions on every assessment, the new design uses conditional logic to surface only the questions that are relevant given the patient's profile and the answers already provided, typically narrowing each assessment to between fifteen and twenty-five questions. This matches how clinicians actually narrow a differential diagnosis through targeted questioning rather than running through every possible item.</p>
+    <p>Split the questionnaire into clean components: <code>QuestionnaireSteps</code> for the individual question definitions, <code>QuestionnaireOptions</code> for the answer choices, and <code>QuestionnaireContext</code> as the central state manager. The context object tracks every answer recorded so far and evaluates the gating conditions for each subsequent step, which is what drives the conditional branching. Keeping the steps, options, and context as separate concerns made it possible to extend the questionnaire later without rewriting the navigation logic.</p>
+    <p>Continued writing the report in parallel, drafting the Literature Review and Background sections.</p>
 
-      <h3>Solutions Found</h3>
-      <p>Prioritised the poster and deck early in the week to allow time for development. Repositioned AR controls to clear the navigation area. Reviewed each patient field against rules engine requirements with my clinical advisor, removing those that added friction without diagnostic value. Added contextual help text for complex medical terms so non-specialist clinicians can understand the assessment.</p>
-
-      <h3>Personal Development</h3>
-      <p>The progress review was a useful checkpoint — presenting the project's architecture and clinical rationale to academic assessors who aren't domain experts required clear, accessible explanation of clinical concepts. Supervisor feedback identified areas to strengthen in the final report, particularly around documenting the validation methodology. Deepened understanding of ABI — values below 0.8 contraindicate compression therapy, a critical safety rule in the engine.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1993971/">Ankle-Brachial Index: Clinical Significance and Measurement</a>
-        <a href="https://developer.apple.com/documentation/arkit/arcamera">ARKit Camera Positioning Documentation</a>
-        <a href="https://gdpr-info.eu/">GDPR — General Data Protection Regulation</a>
-      </div>
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://doi.org/10.12968/jowc.2019.28.3.154">Moore et al. (2019), TIME CDST: An Updated Tool to Address the Current Challenges in Wound Care</a>
+      <a href="https://www.ewma.org/">European Wound Management Association, Position Document: Wound Bed Preparation in Practice</a>
+      <a href="https://developer.apple.com/documentation/swiftui/state">Apple, SwiftUI State and Data Flow Documentation</a>
     </div>
-  </article>
-
-  <!-- ===== WEEK 6 ===== -->
-  <article class="entry">
-    <div class="entry-date">April 6 – 12, 2026 <span class="entry-week">Week 6</span></div>
-    <h2 class="entry-title">Major Architecture Refactoring, Education Hub & Recommendation Engine</h2>
-    <div class="entry-tags">
-      <span class="tag tag-dev">Development</span>
-      <span class="tag tag-milestone">Milestone</span>
-      <span class="tag tag-fix">Bug Fix</span>
-    </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>Major architectural refactoring — the monolithic report and questionnaire views were broken into modular components: <code>ReportBanners.swift</code>, <code>ReportHeader.swift</code>, <code>CollapsibleSectionCard.swift</code>, and several others. Some individual files had exceeded 800 lines and were becoming unmaintainable.</p>
-      <p>The Education Hub was implemented, providing structured wound care learning content covering different ulcer types, assessment techniques, and treatment protocols. This replaced three earlier features (sharing, clinical tips, analytics) that were removed for being redundant or lacking clinical value.</p>
-      <p>The dressing recommendation engine (<code>DressingEngine.swift</code>) was significantly improved — it now considers wound type, exudate level, tissue type, infection status, and patient allergies when matching to appropriate dressing types.</p>
-      <p>Alongside development, I began drafting the project report — starting with the background research and literature review sections, covering existing wound care technologies, the T.I.M.E. framework, and the rationale for a rule-based approach over machine learning.</p>
-
-      <h3>Problems Encountered</h3>
-      <p>A memory crash caused by circular view references in the wound group views. Wound group data inconsistencies with incorrect patient associations in Firestore. The decision to remove three feature modules was difficult but necessary.</p>
-
-      <h3>Solutions Found</h3>
-      <p>Traced the memory crash to wound group views being instantiated multiple times with shared data references. Fixed Firestore associations by properly binding group IDs to patient documents. Systematic refactoring approach: extract → test → verify for each component.</p>
-
-      <h3>Personal Development</h3>
-      <p>Learned the value of "killing your darlings" — removing features improved focus and maintainability. The refactoring reinforced that architecture decisions compound over time. Starting the report early, while the design decisions are fresh, makes documentation significantly easier.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://developer.apple.com/tutorials/swiftui/composing-complex-interfaces">Apple — Composing Complex Interfaces in SwiftUI</a>
-        <a href="https://refactoring.guru/refactoring/techniques">Refactoring Techniques — Refactoring Guru</a>
-      </div>
-    </div>
-  </article>
+  </div>
+</article>
 
   <!-- ===== WEEK 7 ===== -->
-  <article class="entry">
-    <div class="entry-date">April 13 – 19, 2026 <span class="entry-week">Week 7</span></div>
-    <h2 class="entry-title">4-Point AR Measurement System & PUSH Score Implementation</h2>
-    <div class="entry-tags">
-      <span class="tag tag-dev">Development</span>
-      <span class="tag tag-milestone">Milestone</span>
-      <span class="tag tag-learning">Research</span>
+<article class="entry">
+  <div class="entry-date">April 13 – 19, 2026 <span class="entry-week">Week 7</span></div>
+  <h2 class="entry-title">4-Point AR Measurement System & PUSH Score Implementation</h2>
+  <div class="entry-tags">
+    <span class="tag tag-dev">Development</span>
+    <span class="tag tag-milestone">Milestone</span>
+    <span class="tag tag-learning">Research</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>The most technically demanding week of the project. Built the 4-point AR measurement system on top of the scaffolding from Week 4. The user taps four points around the wound boundary and the app computes length, width, and area from the resulting quadrilateral. Initial accuracy on flat surfaces was acceptable from the first version, but accuracy on curved anatomical surfaces such as the knee or heel was very poor, with errors of roughly ±10 to 11 cm. After several rounds of iteration the system converged on a multi-sample raycasting approach: each tap fires 25 rays in a small pattern around the touch point, outliers are filtered out, and the remaining samples are combined with a weighted average. This reduced curved-surface error.</p>
+    <p>Built the PUSH score in <code>PUSH.swift</code> and <code>PUSHTrajectory.swift</code>. PUSH is an evidence-based three-component score combining wound surface area, exudate amount, and tissue type, and it gives a single number that can be tracked across assessments to indicate whether a wound is healing or deteriorating.</p>
+    <p>Did a UI pass alongside the AR work. Replaced the emoji icons that had been used as placeholders with SF Symbols throughout, and tightened up the profile, contact, and patient-editing views.</p>
+
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://doi.org/10.1093/gerona/56.12.m795">Stotts et al. (2001), An Instrument to Measure Healing in Pressure Ulcers: Development and Validation of the PUSH Tool</a>
+      <a href="https://doi.org/10.3390/jcm12186042">Lee et al. (2023), Smartphone-Based LiDAR Application for Easy and Accurate Wound Size Measurement</a>
+      <a href="https://doi.org/10.1111/iwj.12472">Jørgensen et al. (2016), Methods to Assess Area and Volume of Wounds: A Systematic Review</a>
+      <a href="https://developer.apple.com/documentation/arkit/arsceneview/2875544-raycastquery">Apple, ARKit Raycasting Documentation</a>
     </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>The most technically challenging week of the project. I implemented a 4-point AR measurement system achieving ±0.3–0.5cm accuracy on flat surfaces and ±1cm on curved surfaces like knees and heels. The system uses multi-sample raycasting with 25 points around each tap location, outlier filtering, and weighted averaging. Extending LiDAR measurement to curved anatomical surfaces represents a novel technical contribution — most existing solutions only handle flat surfaces.</p>
-      <p>The PUSH (Pressure Ulcer Scale for Healing) scoring system was built in <code>PUSH.swift</code> and <code>PUSHTrajectory.swift</code>. This evidence-based tool scores wound area, exudate amount, and tissue type to track healing over time. The trajectory graph now shows PUSH scores across assessments, giving clinicians a visual healing indicator.</p>
-      <p>A comprehensive UI overhaul replaced emoji icons with SF Symbols for professional appearance. The smoking assessment was separated into its own section, and profile, contact, and patient editing views were refined.</p>
+  </div>
+</article>
 
-      <h3>Problems Encountered</h3>
-      <p>Initial curved surface accuracy showed ±3–4cm errors. The PUSH score wasn't updating correctly with remeasurements, and manual measurements weren't syncing to the trajectory graph.</p>
+ <!-- ===== WEEK 8 ===== -->
+<article class="entry">
+  <div class="entry-date">April 20 – 26, 2026 <span class="entry-week">Week 8</span></div>
+  <h2 class="entry-title">Clinical Reasoning Engine & Bilingual Support</h2>
+  <div class="entry-tags">
+    <span class="tag tag-dev">Development</span>
+    <span class="tag tag-milestone">Milestone</span>
+    <span class="tag tag-learning">Research</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>Implemented the clinical reasoning engine in <code>RulesEngine.swift</code>. This is the core diagnostic component that maps the questionnaire's structured answers to a suggested wound etiology. Rule cascade was derived from the clinical literature and from the scoping discussions with Dr. Lang in earlier weeks.</p>
+    <p>The cascade is intentionally ordered around clinical safety rather than statistical likelihood. Rare but dangerous conditions are checked first so they cannot be missed. The location-based pathway is then used to narrow the differential before specific clinical signs are evaluated, which matches how a specialist actually reasons in practice. Emergency banner styling was added to make safety-critical findings prominent in the report.</p>
+    <p>Implemented full English and Slovak bilingual support. Built <code>LocalizedStrings.swift</code> covering UI text, medical terminology, clinical descriptions, and the full questionnaire content. Added a language picker so the user can switch the entire app between English and Slovak.</p>
 
-      <h3>Solutions Found</h3>
-      <p>Developed multi-sample raycasting: 25 rays per tap in a pattern, statistical outlier filtering, and weighted averaging — reducing curved surface error to ±1cm. Fixed PUSH trajectory by properly incorporating remeasurement data points and recalculating on each new assessment.</p>
-
-      <h3>Personal Development</h3>
-      <p>The AR work required deep understanding of both ARKit raycasting and geometric challenges of non-planar measurement. PUSH scoring research involved clinical literature study to ensure the implementation matches established protocols. This combination of technical innovation and clinical grounding is the project's unique contribution.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://www.npuap.org/resources/educational-and-clinical-resources/push-tool/">NPUAP — PUSH Tool for Pressure Ulcer Healing</a>
-        <a href="https://developer.apple.com/documentation/arkit/arsceneview/2875544-raycastquery">ARKit Raycasting Documentation</a>
-      </div>
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://doi.org/10.1016/j.ejvs.2006.09.024">Norgren et al. (2007), Inter-Society Consensus for the Management of Peripheral Arterial Disease (TASC II)</a>
+      <a href="https://doi.org/10.1002/dmrr.2697">Bus et al. (2016), IWGDF Guidance on Footwear and Offloading Interventions for Diabetic Foot Ulcers</a>
+      <a href="https://doi.org/10.1111/wrr.12394">Marston et al. (2016), Wound Healing Society 2015 Update on Guidelines for Venous Ulcers</a>
+      <a href="https://developer.apple.com/documentation/xcode/localization">Apple, Xcode Localization Documentation</a>
     </div>
-  </article>
-
-  <!-- ===== WEEK 8 ===== -->
-  <article class="entry">
-    <div class="entry-date">April 20 – 26, 2026 <span class="entry-week">Week 8</span></div>
-    <h2 class="entry-title">Clinical Reasoning Engine & Emergency Condition Handling</h2>
-    <div class="entry-tags">
-      <span class="tag tag-dev">Development</span>
-      <span class="tag tag-milestone">Milestone</span>
-      <span class="tag tag-fix">Bug Fix</span>
-    </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>The clinical reasoning engine was implemented in <code>RulesEngine.swift</code> — the core diagnostic logic that analyses questionnaire responses to suggest wound etiology. The engine differentiates between venous ulcers, arterial ulcers, diabetic foot ulcers, pressure injuries, mixed etiology wounds, and rarer conditions using evidence-based algorithms.</p>
-      <p>The diagnostic logic follows clinical principles: checking rare but dangerous conditions (malignancy, calciphylaxis) before common diagnoses, mirroring real clinical reasoning. Location-based pathways use the anatomical wound location to narrow the differential diagnosis before other factors are considered.</p>
-      <p>Emergency banners were improved for prominent alerts on dangerous findings. The report now uses collapsible sections for progressive information disclosure. Character encoding issues with medical symbols (cm², bullet points, Slovak characters) were resolved. Auto-advance on single-select questions was removed to give users control over the assessment pace.</p>
-
-      <h3>Problems Encountered</h3>
-      <p>Character encoding corruption with special medical characters across localised strings. A UI glitch with white squares appearing intermittently. Auto-advance was confusing users who wanted to review selections before proceeding.</p>
-
-      <h3>Solutions Found</h3>
-      <p>Systematic UTF-8 encoding verification across all string files. Traced the white square glitch to empty image placeholders and added fallback views. Removed auto-advance entirely — explicit "Next" taps give users control.</p>
-
-      <h3>Personal Development</h3>
-      <p>Building the reasoning engine required extensive study of wound etiology determination. Learned the hierarchical approach: rule out dangerous conditions first, then consider location probabilities, then evaluate specific signs. This "safety-first" logic is fundamental to clinical decision support.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://www.woundsinternational.com/resources/details/international-consensus-document-wound-exudate">Wounds International — Wound Assessment Consensus</a>
-        <a href="https://unicode.org/faq/utf_bom.html">Unicode UTF-8 Encoding FAQ</a>
-      </div>
-    </div>
-  </article>
+  </div>
+</article>
 
   <!-- ===== WEEK 9 ===== -->
-  <article class="entry">
-    <div class="entry-date">April 27 – May 3, 2026 <span class="entry-week">Week 9</span></div>
-    <h2 class="entry-title">Security Implementation & Rules Engine Refinement</h2>
-    <div class="entry-tags">
-      <span class="tag tag-dev">Development</span>
-      <span class="tag tag-milestone">Milestone</span>
-      <span class="tag tag-learning">Research</span>
+<article class="entry">
+  <div class="entry-date">April 27 – May 3, 2026 <span class="entry-week">Week 9</span></div>
+  <h2 class="entry-title">Dressing Engine, Education Hub & Report View Refactoring</h2>
+  <div class="entry-tags">
+    <span class="tag tag-dev">Development</span>
+    <span class="tag tag-milestone">Milestone</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>Built the dressing recommendation engine in <code>DressingEngine.swift</code>. The engine takes the wound bed state, exudate level, tissue type, infection status, and patient allergies as inputs, and maps them to an appropriate dressing category from the formulary.</p>
+    <p>Three earlier features were removed after a scoping review concluded that they did not contribute clinical value in the project's setting: a wound record sharing feature, a clinical tips ticker, and an analytics dashboard. They were replaced with the Education Hub, which provides structured wound care learning content organised around ulcer types, assessment techniques, and treatment protocols.</p>
+    <p>Refactored the report view, which had grown large enough to be difficult to maintain. Broke it into modular components including <code>ReportBanners.swift</code>, <code>ReportHeader.swift</code>, and <code>CollapsibleSectionCard.swift</code>.</p>
+
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://doi.org/10.2196/resprot.9116">Jordan et al. (2018), An mHealth App for Decision-Making Support in Wound Dressing Selection (WounDS)</a>
+      <a href="https://doi.org/10.1111/iwj.13868">Moore et al. (2022), A Clinical Support App for Routine Wound Management</a>
+      <a href="https://developer.apple.com/tutorials/swiftui/composing-complex-interfaces">Apple, Composing Complex Interfaces in SwiftUI</a>
     </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>Implemented the comprehensive security layer required for a healthcare application. This includes Face ID/Touch ID via iOS <code>LocalAuthentication</code>, secure credential storage in the iOS Keychain with hardware encryption, a 15-minute auto-logout via <code>InactivityManager.swift</code>, and rate limiting. These were built as dedicated services: <code>BiometricAuthManager.swift</code>, <code>KeychainManager.swift</code>, <code>RateLimiter.swift</code>, and <code>SecureLogger.swift</code>.</p>
-      <p>The rules engine was refined with rare condition handling. A progressive disclosure toggle hides uncommon wound types (radiation wounds, calciphylaxis, pyoderma gangrenosum) by default while keeping them accessible. The radiation site assessment was fixed, medical disclaimers were added throughout, and Firestore storage paths were finalised. A bug preventing patient and wound group deletion was resolved.</p>
-      <p>Continued work on the project report — documented the requirements gathering process, the design rationale for the security architecture, and began writing the implementation section covering the rules engine approach.</p>
+  </div>
+</article>
 
-      <h3>Problems Encountered</h3>
-      <p>Face ID required handling multiple edge cases: unsupported device, unenrolled biometrics, denied permissions, authentication failure. Firestore security rules didn't match actual document paths, causing permission errors on deletion. Balancing rare condition visibility with usability was tricky.</p>
+ <!-- ===== WEEK 10 ===== -->
+<article class="entry">
+  <div class="entry-date">May 4 – 10, 2026 <span class="entry-week">Week 10</span></div>
+  <h2 class="entry-title">Security Layer, GDPR Compliance & Compression Safety</h2>
+  <div class="entry-tags">
+    <span class="tag tag-dev">Development</span>
+    <span class="tag tag-milestone">Milestone</span>
+    <span class="tag tag-learning">Research</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>Implemented the security layer. Added Face ID authentication through <code>LocalAuthentication</code>, with fallback to password when biometrics are unavailable, unenrolled, or denied. Credentials are stored in the iOS Keychain with hardware-backed encryption. A fifteen-minute inactivity auto-logout was added through <code>InactivityManager</code>, and rate limiting was added to the authentication paths. The security functionality was split into dedicated services: <code>BiometricAuthManager</code>, <code>KeychainManager</code>, <code>RateLimiter</code>, and <code>SecureLogger</code>.</p>
+    <p>Built the account deletion flow in <code>UserDeletion.swift</code>. Firestore has no built-in cascade delete for subcollections, so the implementation traverses the full document hierarchy (patients, wound groups, assessments, and the corresponding photographs in Firebase Storage) and removes everything tied to the deleted account.</p>
+    <p>This was the week I transitioned from active development to the evaluation and documentation phase. Spent the remaining time on the thesis write-up, the project diary, and the landing page.</p>
 
-      <h3>Solutions Found</h3>
-      <p>Built <code>BiometricAuthManager</code> with comprehensive <code>LAError</code> handling and graceful password fallback. Audited every read/write operation against the security rules to align paths. Progressive disclosure keeps rare conditions hidden by default but accessible via toggle.</p>
-
-      <h3>Personal Development</h3>
-      <p>Healthcare security features aren't optional — auto-logout, biometric auth, and encrypted storage are essential for patient data. Studied GDPR Article 9 requirements for health data processing, which directly informed the security architecture. Reviewed the implementation with my supervisor.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://developer.apple.com/documentation/localauthentication/">Apple LocalAuthentication Framework</a>
-        <a href="https://developer.apple.com/documentation/security/keychain_services">Apple Keychain Services</a>
-        <a href="https://gdpr-info.eu/art-9-gdpr/">GDPR Article 9 — Special Categories of Data</a>
-      </div>
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://gdpr-info.eu/art-9-gdpr/">GDPR Article 9, Processing of special categories of personal data</a>
+      <a href="https://gdpr-info.eu/art-17-gdpr/">GDPR Article 17, Right to erasure</a>
+      <a href="https://www.nice.org.uk/guidance/cg168">NICE Clinical Guideline CG168, Varicose veins in the legs</a>
+      <a href="https://developer.apple.com/documentation/localauthentication/">Apple, LocalAuthentication Framework Documentation</a>
+      <a href="https://developer.apple.com/documentation/security/keychain_services">Apple, Keychain Services Documentation</a>
     </div>
-  </article>
+  </div>
+</article>
 
-  <!-- ===== WEEK 10 ===== -->
-  <article class="entry">
-    <div class="entry-date">May 4 – 10, 2026 <span class="entry-week">Week 10</span></div>
-    <h2 class="entry-title">Compression Safety, GDPR Compliance & Final Development</h2>
-    <div class="entry-tags">
-      <span class="tag tag-dev">Development</span>
-      <span class="tag tag-milestone">Milestone</span>
-      <span class="tag tag-learning">Research</span>
+ <!-- ===== WEEK 11 ===== -->
+<article class="entry">
+  <div class="entry-date">May 11 – 17, 2026 <span class="entry-week">Week 11</span></div>
+  <h2 class="entry-title">Clinical Logic Validation: TC1–TC10 Vignette Evaluation with Dr. Lang</h2>
+  <div class="entry-tags">
+    <span class="tag tag-milestone">Milestone</span>
+    <span class="tag tag-learning">Research</span>
+    <span class="tag tag-fix">Bug Fix</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>Ran the clinical logic validation with Dr. Lang. The evaluation was conducted as a structured per-case protocol using the ten clinical vignettes. The vignettes covered the seven primary etiology categories addressed by the application, together with three additional cases testing clinically distinctive edge presentations.</p>
+    <p>The evaluation followed a three-stage protocol. For each vignette, Dr. Lang first recorded an independent diagnosis, clinical reasoning, and proposed treatment, before any application output was disclosed for that case (Stage 1). Then the same case data was entered into WoundPilot and recorded the engine's etiology, treatment, and dressing recommendations (Stage 2). Finally, I assigned alignment scores across three dimensions, and Dr. Lang confirmed the final scores (Stage 3).</p>
+    <p>Across the ten cases, the application achieved <strong>seven full agreements and three partial agreements</strong> on etiology (7F / 3P = 70 percent full agreement, 100 percent full or partial). The ≥80 percent etiology agreement success criterion defined in the project specification was met when full or partial agreement is considered, with full agreement at 70 percent. Treatment and dressing appropriateness ratings averaged in the clinically acceptable range across cases.</p>
+    
+
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://doi.org/10.1177/15385744241264336">Alagha et al. (2024), Review of Mixed Arterial Venous Leg Ulcers (MAVLU) Disease in Contemporary Practice</a>
+      <a href="https://doi.org/10.1097/01.ASW.0000720252.15291.18">Khan, Schafer & Wood (2020), Marjolin Ulcer: A Comprehensive Review</a>
+      <a href="https://doi.org/10.34068/joe.50.02.48">Boone & Boone (2012), Analyzing Likert Data</a>
     </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>Implemented the critical compression therapy safety logic — arguably the most important safety feature in the entire application. The rules engine now ensures compression is never recommended without confirmed adequate arterial flow (ABI > 0.8). Compression applied to limbs with poor circulation can cause tissue necrosis, making this a genuine patient safety requirement.</p>
-      <p>The GDPR-compliant account deletion feature (<code>UserDeletion.swift</code>) was built with full cascade deletion: patient records, wound groups, assessments, and photographs are permanently removed from both Firestore and Firebase Storage. A compliance notice (<code>ComplianceNoticeSheet.swift</code>) was added for first-time users. The auto-logout was hardened for proper background/foreground transitions.</p>
-      <p>Peripheral neuropathy fields were removed from the questionnaire after determining they added friction without improving diagnostic output. The dressing engine, safety card, and report sections received final refinements. Remaining localised strings were added to ensure complete bilingual coverage.</p>
-      <p>With core development wrapping up, dedicated more time to the project report this week — documenting the compression safety logic, GDPR implementation decisions, and the clinical reasoning architecture. Also created system architecture diagrams using Lucidchart for inclusion in the report.</p>
+  </div>
+</article>
 
-      <h3>Problems Encountered</h3>
-      <p>Compression logic needed to handle ambiguous cases — unmeasured or borderline ABI. Cascade deletion in Firestore requires manual traversal since there's no built-in cascade delete for subcollections. Auto-logout timer had edge cases where it wouldn't reset after certain interactions.</p>
 
-      <h3>Solutions Found</h3>
-      <p>Conservative compression approach: if ABI is unknown or borderline, the system recommends vascular referral rather than suggesting compression — "when in doubt, don't compress." Built a recursive deletion service traversing the full document hierarchy. Fixed auto-logout by hooking into UIApplication touch events to detect all user interactions.</p>
-
-      <h3>Personal Development</h3>
-      <p>The compression safety work was informed by extensive consultation with my clinical advisor — understanding that incorrect compression can lead to limb loss made this feature feel critically important. Implementing GDPR's "right to erasure" in practice was more complex than theoretical understanding suggested. This week marked the transition from active development to the testing and documentation phase.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://www.nice.org.uk/guidance/cg168">NICE Guideline CG168 — Varicose veins</a>
-        <a href="https://gdpr-info.eu/art-17-gdpr/">GDPR Article 17 — Right to Erasure</a>
-        <a href="https://firebase.google.com/docs/firestore/manage-data/delete-data">Firebase — Delete Data from Firestore</a>
-      </div>
-    </div>
-  </article>
-
-  <!-- ===== WEEK 11 ===== -->
-  <article class="entry">
-    <div class="entry-date">May 11 – 17, 2026 <span class="entry-week">Week 11</span></div>
-    <h2 class="entry-title">TestFlight Distribution & Clinical Feasibility Testing</h2>
-    <div class="entry-tags">
-      <span class="tag tag-milestone">Milestone</span>
-      <span class="tag tag-learning">Research</span>
-    </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>Prepared and distributed the first TestFlight build to clinical professionals for feasibility testing. The build was sent to wound care specialists and general practitioners in Slovakia, coordinated through my clinical advisor. A structured feedback form was prepared covering usability, clinical accuracy, workflow efficiency, and language quality.</p>
-      <p>Conducted systematic testing of all user flows in both English and Slovak, documenting edge cases and inconsistencies. The complete assessment workflow was tested end-to-end: patient creation → body localization → AR measurement → questionnaire → diagnosis → dressing recommendation → report. Tested on multiple iPhone Pro models to verify LiDAR measurement consistency.</p>
-      <p>While waiting for clinical tester feedback, dedicated significant time to the project report — writing the requirements gathering and design sections, documenting the questionnaire's conditional branching logic, and drafting the implementation narrative. Created annotated UI screenshots and data flow diagrams for inclusion.</p>
-
-      <h3>Problems Encountered</h3>
-      <p>Medical terminology inconsistencies were found between English and Slovak versions — certain clinical terms had been translated differently across different app sections. Some edge cases in the rules engine produced unexpected diagnostic suggestions for unusual wound presentations. TestFlight distribution required careful configuration of provisioning profiles and App Store Connect settings.</p>
-
-      <h3>Solutions Found</h3>
-      <p>Created a medical terminology glossary mapping English terms to their approved Slovak translations, then systematically audited all localised content for consistency. Added condition checks to the rules engine for edge cases identified during testing. Documented the TestFlight setup process for the project report.</p>
-
-      <h3>Personal Development</h3>
-      <p>Seeing actual clinicians interact with the app provided invaluable perspective. The feedback highlighted areas where the clinical workflow assumptions didn't match real-world practice — for example, the assessment pace needed to be faster than initially designed. Learning to process and prioritise professional feedback is a key skill for software development in specialised domains.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://developer.apple.com/testflight/">Apple TestFlight Documentation</a>
-        <a href="https://developer.apple.com/documentation/xcode/distributing-your-app-for-beta-testing-and-releases">Distributing Your App for Beta Testing</a>
-      </div>
-    </div>
-  </article>
-
+  
   <!-- ===== WEEK 12 ===== -->
-  <article class="entry">
-    <div class="entry-date">May 18 – 24, 2026 <span class="entry-week">Week 12</span></div>
-    <h2 class="entry-title">Bug Fixes from Clinical Feedback & Application Polish</h2>
-    <div class="entry-tags">
-      <span class="tag tag-dev">Development</span>
-      <span class="tag tag-fix">Bug Fix</span>
+  <!-- ===== WEEK 12 ===== -->
+<article class="entry">
+  <div class="entry-date">May 18 – 24, 2026 <span class="entry-week">Week 12</span></div>
+  <h2 class="entry-title">Thesis Draft Submission, Supervisor Feedback & Final Polish</h2>
+  <div class="entry-tags">
+    <span class="tag tag-milestone">Milestone</span>
+    <span class="tag tag-dev">Development</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>Sent the thesis draft to Bohuš on 18 May for review. There were four specific points I have to act on. First it was suggested that the implementation chapter should be shortened by moving code examples into the appendix and keeping only the key implementation steps and decisions in the main body, together with a dedicated Implementation Challenges section. Second, the Evaluation chapter should be expanded, since it is the most important chapter and should also cover the limitations of the approach itself, the challenges encountered during the design and development process, the limitations of the testing and feedback method, and what the results actually mean for practical usage of the application. Third, the citation style slightly deviates from the recommended standard but is acceptable as it stands. Fourth, several screenshots would help illustrate the design decisions.</p>
+    <p>Used the rest of the week to act on the feedback. Started restructuring the implementation chapter, moving the longer code listings into the appendix and tightening the main-body discussion to focus on the key decisions and their justifications. Began expanding the Evaluation chapter, drafting new subsections on approach limitations, development-process challenges, evaluation-method limitations, and the practical implications of the results.</p>
+    <p>Started adding screenshots to the landing page and finishing this project diary in parallel, since both reference the application's appearance and should match the version that will accompany the report. Captured a representative set of screenshots covering the patient flow, the body localization view, the AR measurement view, the questionnaire, and the report with dressing recommendation, with the intention of using the same set across the report, the diary, and the landing page for visual consistency.</p>
+
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://www.citethemrightonline.com/">Cite Them Right Online, Referencing Guide</a>
     </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>Addressed feedback from the clinical feasibility testing. Fixed issues identified by testers, including minor UI inconsistencies, questionnaire flow improvements based on clinician suggestions, and refinements to the diagnostic reasoning for specific wound presentations. Updated the dressing recommendations based on clinical advisor input regarding current best practices.</p>
-      <p>Conducted a final localisation review pass, ensuring all recently added features (compliance notice, education content, security messages) have complete Slovak translations. Performed accessibility improvements and verified the app meets iOS accessibility standards.</p>
-      <p>Made substantial progress on the project report — wrote the implementation section covering the AR measurement system, clinical reasoning engine, and security architecture. Began the evaluation section, documenting testing methodology, clinical feedback results, and inter-rater observations. Also started preparing the artefact demonstration structure for the walkthrough video.</p>
+  </div>
+</article>
 
-      <h3>Problems Encountered</h3>
-      <p>Some clinical feedback required balancing conflicting preferences between different testers — for instance, one clinician wanted more detailed diagnostic explanations while another preferred brevity. Prioritising which feedback items to address within the remaining timeline required careful decision-making.</p>
-
-      <h3>Solutions Found</h3>
-      <p>Used the collapsible section pattern to satisfy both preferences — brief summaries by default with detailed explanations available on expansion. Prioritised feedback items that affected clinical accuracy or patient safety over cosmetic preferences. Documented all received feedback and the rationale for which items were addressed.</p>
-
-      <h3>Personal Development</h3>
-      <p>Learning to triage and prioritise user feedback is a crucial professional skill. Not all feedback can or should be implemented — the key is identifying changes that improve clinical safety and core usability versus those that reflect individual preferences. Discussed the feedback prioritisation approach with my supervisor.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://developer.apple.com/accessibility/">Apple Accessibility Documentation</a>
-        <a href="https://www.nngroup.com/articles/acting-on-user-research/">Nielsen Norman Group — Acting on User Research</a>
-      </div>
-    </div>
-  </article>
 
   <!-- ===== WEEK 13 ===== -->
-  <article class="entry">
-    <div class="entry-date">May 25 – 31, 2026 <span class="entry-week">Week 13</span></div>
-    <h2 class="entry-title">Report Completion & Walkthrough Video</h2>
-    <div class="entry-tags">
-      <span class="tag tag-milestone">Milestone</span>
-      <span class="tag tag-learning">Research</span>
+<article class="entry">
+  <div class="entry-date">May 25 – 31, 2026 <span class="entry-week">Week 13</span></div>
+  <h2 class="entry-title">Final Revisions, Walkthrough Video & Thesis Submission</h2>
+  <div class="entry-tags">
+    <span class="tag tag-milestone">Milestone</span>
+    <span class="tag tag-dev">Development</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>Worked through the remaining items from feedback. Finished moving the longer code listings, and tightened the main-body discussion to focus on key decisions and their justifications. Completed the Evaluation chapter expansion.</p>
+    <p>Inserted the screenshots taken in Week 12 into the design and evaluation chapters at the points where they best illustrated the decisions being described. Performed a full consistency pass across all chapters to ensure a unified voice and structure, and proofread the document end to end for spelling, grammar, and citation format.</p>
+    <p>Recorded the walkthrough video demonstrating the full assessment flow: patient creation, body localization, AR measurement on both flat and curved surfaces, the clinical questionnaire, the diagnostic report with reasoning, and the dressing recommendation. Added the README, polished the comments in the code and added the project diary URL to the report.</p>
+    <p>Submitted the thesis.</p>
+
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://www.citethemrightonline.com/">Cite Them Right Online, Referencing Guide</a>
     </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>Focused on completing and unifying the project report. Having drafted individual sections progressively over the past several weeks, this week was about pulling everything together into a cohesive document. Completed the evaluation section with critical analysis of testing results and clinical feedback, wrote the introduction and conclusion, and performed a full consistency pass across all sections to ensure a unified voice and structure.</p>
-      <p>Recorded the walkthrough video demonstrating the complete assessment workflow: patient creation, body localization, AR measurement on both flat and curved surfaces, clinical questionnaire, diagnostic report with reasoning, and dressing recommendations. The video also demonstrates security features (Face ID, auto-logout), bilingual support, and the education hub.</p>
-      <p>Finalised all diagrams and screenshots for the report, including the system architecture diagram, data flow diagrams, and annotated UI screenshots showing key features.</p>
+  </div>
+</article>
 
-      <h3>Problems Encountered</h3>
-      <p>Structuring the report to adequately cover the project's breadth within the ~6,500-word guideline was challenging — WoundPilot touches on AR technology, clinical decision support, healthcare security, and bilingual localisation, each of which could warrant its own report section. Balancing technical depth with readability required multiple revision passes.</p>
-
-      <h3>Solutions Found</h3>
-      <p>Adopted a focused structure highlighting the novel contributions (LiDAR on curved surfaces, rule-based clinical reasoning) while covering other aspects more concisely. Used appendices for supplementary material like the complete rules engine logic and localisation approach, keeping the main report focused on process and evaluation.</p>
-
-      <h3>Personal Development</h3>
-      <p>Technical writing at this level requires a different skill set from coding — explaining complex decisions clearly, justifying choices with evidence, and critically evaluating your own work are all important abilities. The process of writing the report also revealed areas where my earlier decisions could have been better documented during development. This reinforces the value of maintaining a project diary throughout the development process.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://www.citethemrightonline.com/">Cite Them Right — Referencing Guide</a>
-      </div>
-    </div>
-  </article>
 
   <!-- ===== WEEK 14 ===== -->
-  <article class="entry">
-    <div class="entry-date">June 1 – 7, 2026 <span class="entry-week">Week 14</span></div>
-    <h2 class="entry-title">Final Report Revision, Submission Preparation & Reflection</h2>
-    <div class="entry-tags">
-      <span class="tag tag-milestone">Milestone</span>
-      <span class="tag tag-learning">Research</span>
+<article class="entry">
+  <div class="entry-date">June 1 – 7, 2026 <span class="entry-week">Week 14</span></div>
+  <h2 class="entry-title">Viva Preparation, Defence & Project Close-Out</h2>
+  <div class="entry-tags">
+    <span class="tag tag-milestone">Milestone</span>
+    <span class="tag tag-learning">Research</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>Delivered the viva on 4 June.</p>
+
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://www.citethemrightonline.com/">Cite Them Right Online, Referencing Guide</a>
     </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>Final revision of the project report based on supervisor feedback. Refined the evaluation section with additional critical analysis, strengthened the justification for technical decisions, and ensured all in-text citations and references follow the required format. The report was proofread for spelling, grammar, and consistency.</p>
-      <p>Prepared all submission materials: PDF of the project report, walkthrough video, final TestFlight build, project diary URL, and supplementary documentation. Verified that the GitHub repository is properly organised with a clear README describing the project.</p>
-      <p>Conducted a final end-to-end test of the application to confirm all features work correctly in the submission build.</p>
-
-      <h3>Problems Encountered</h3>
-      <p>The evaluation section needed strengthening — initial draft was too descriptive and not sufficiently critical. Ensuring all submission components met the required formats and were properly linked took careful attention to detail.</p>
-
-      <h3>Solutions Found</h3>
-      <p>Revised the evaluation to include honest assessment of limitations: AR measurement accuracy constraints on highly curved surfaces, the inherent limitations of rule-based reasoning for atypical presentations, and areas where the app would benefit from larger-scale clinical validation. This critical self-assessment strengthened the report significantly.</p>
-
-      <h3>Personal Development</h3>
-      <p>Reflecting on the full 14-week project, WoundPilot has been the most technically ambitious and professionally rewarding work of my degree. The combination of AR/LiDAR measurement, clinical decision support, healthcare security, and bilingual localisation created a genuinely complex engineering challenge that pushed well beyond typical undergraduate project scope.</p>
-      <p>Key lessons from the project: clinical accuracy must take priority over feature count; safety-first logic is non-negotiable in healthcare; the gap between a working prototype and a clinically usable tool is much larger than it appears; and consulting with domain experts (clinical advisor) throughout development produces significantly better outcomes than building in isolation.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://www.citethemrightonline.com/">Cite Them Right — Referencing Guide</a>
-        <a href="https://developer.apple.com/testflight/">Apple TestFlight Documentation</a>
-      </div>
-    </div>
-  </article>
+  </div>
+</article>
 
 </main>
 
