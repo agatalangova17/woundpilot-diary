@@ -622,13 +622,13 @@ body {
   <div class="entry-body">
     <h3>Work Done</h3>
     <p>The most technically demanding week of the project. Built the 4-point AR measurement system on top of what was made in Week 4. The user taps four points around the wound boundary and the app computes length, width, and area from the resulting quadrilateral. Initial accuracy on flat surfaces was acceptable from the first version, but accuracy on curved anatomical surfaces such as the knee or heel was very poor, with errors of roughly ±10 to 11 cm. After several rounds of iteration I ended up with a multi-sample raycasting approach: each tap fires 25 rays in a small pattern around the touch point, outliers are filtered out, and the remaining samples are combined with a weighted average. This reduced curvature error.</p>
-    <p>Built the PUSH score in <code>PUSH.swift</code> and <code>PUSHTrajectory.swift</code> for indication whether the wound is healing or deteriorating.</p>
+    <p>Built the PUSH score in <code>PUSH.swift</code> and <code>PUSHTrajectory.swift</code> to indicate whether the wound is healing or deteriorating.</p>
     <p>Did a UI pass alongside the AR work. Replaced the emoji icons that had been used as placeholders with SF Symbols throughout, and tightened up the profile, contact, and patient-editing views.</p>
 
     <div class="entry-refs">
       <h4>References</h4>
       <a href="https://doi.org/10.1093/gerona/56.12.m795">Stotts et al. (2001), An Instrument to Measure Healing in Pressure Ulcers: Development and Validation of the PUSH Tool</a>
-      <a href="https://doi.org/10.3390/jcm12186042">Lee et al. (2023), Smartphone-Based LiDAR Application for Easy and Accurate Wound Size Measurement</a>
+      <a href="https://doi.org/10.3390/jcm12186042">Song et al. (2023), Smartphone-Based LiDAR Application for Easy and Accurate Wound Size Measurement</a>
       <a href="https://doi.org/10.1111/iwj.12472">Jørgensen et al. (2016), Methods to Assess Area and Volume of Wounds: A Systematic Review</a>
       <a href="https://developer.apple.com/documentation/arkit/arsceneview/2875544-raycastquery">Apple, ARKit Raycasting Documentation</a>
     </div>
@@ -686,15 +686,14 @@ body {
  <!-- ===== WEEK 10 ===== -->
 <article class="entry">
   <div class="entry-date">May 4 – 10, 2026 <span class="entry-week">Week 10</span></div>
-  <h2 class="entry-title">Security Layer, GDPR Compliance & Compression Safety</h2>
+  <h2 class="entry-title">Security Layer</h2>
   <div class="entry-tags">
     <span class="tag tag-dev">Development</span>
     <span class="tag tag-milestone">Milestone</span>
-    <span class="tag tag-learning">Research</span>
   </div>
   <div class="entry-body">
     <h3>Work Done</h3>
-    <p>Implemented the security layer. Added Face ID authentication with fallback. Credentials are stored in the iOS Keychain and  fifteen-minute inactivity auto-logout was added through <code>InactivityManager</code>, and rate limiting was added to the authentication paths.</p>
+<p>Implemented the security layer. Added Face ID authentication with fallback. Credentials are stored in the iOS Keychain. A fifteen-minute inactivity auto-logout was added through <code>InactivityManager</code>, and rate limiting was added to the authentication paths.</p>
     <p>Built the account deletion flow in <code>UserDeletion.swift</code>. Firestore has no built-in cascade delete for subcollections, so the implementation traverses the full document hierarchy and removes everything tied to the deleted account.</p>
     <p>This was the week I transitioned from active development to the evaluation and documentation phase. Spent the remaining time on the thesis write-up, the project diary, and the landing page.</p>
 
