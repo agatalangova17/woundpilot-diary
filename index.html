@@ -446,12 +446,16 @@ body {
     <span class="tag tag-learning">Research</span>
   </div>
   <div class="entry-body">
-    <h3>Work Done</h3>
-    <p>Emailed an initial draft of the project proposal to supervisor Bohuš Získal on 8 February for early feedback. Bohuš returned written feedback the following day asking me to clarify the project's intended outcome (proof of concept vs. MVP vs. finished product), tighten the research question accordingly, add GUI design to the areas for further investigation, present the plan as a Gantt chart with documentation activities included, and frame the deliverables in less product-specific language.</p>
-    <p>I revised the proposal across the following two weeks. The main change was reframing WoundPilot from a clinically-positioned product to an <strong>MVP</strong>, with appropriately softened deliverables language, a Gantt chart with documentation slots added, and GUI design listed as an area for further investigation. Submitted the revised proposal via Blackboard on 23 February.</p>
-    <p>Official sign-off feedback arrived around mid-March. Following sign-off, Bohuš and I had a Zoom call where he suggested reframing the project once more, this time from MVP to <strong>proof of concept</strong>, on the grounds that this framing better matches what the project can credibly deliver and assess. We also agreed to revise the research question to reflect the newer framing, and to introduce a concrete success criterion of ≥80% etiology agreement with specialist judgment across ten clinical test cases before the Progress Review. The updated research question became: <em>"Can combining iPhone LiDAR-based wound measurement with rule-based clinical reasoning in a mobile application provide clinically useful outputs for chronic wound assessment?"</em></p>
-    <p>Around the same time, confirmed Dr. Jozef Lang, a wound care specialist practising in Slovakia, as clinical advisor and validation partner. His role would be to validate the diagnostic logic, and give final usability feedback.</p>
+   <h3>Work Done</h3>
+<p>Emailed an initial draft of the project proposal to supervisor Bohuš Získal on 8 February for early feedback. Bohuš returned written feedback the following day asking me to clarify the project's intended outcome (proof of concept vs. MVP vs. finished product), tighten the research question accordingly, add GUI design to the areas for further investigation, present the plan as a Gantt chart with documentation activities included, and frame the deliverables in less product-specific language.</p>
 
+<p>In parallel with the proposal revisions, I had scoping discussions with Dr. Jozef Lang, to establish which features would actually be clinically useful. From these conversations the core feature set was finalized: wound measurement, a structured assessment of the wound and patient, a healing-progress, and dressing recommendations. The design of how each of these would work, including the rule-based reasoning approach and the data model behind it, was my own. Dr. Lang's role at this stage was to confirm what should be included and to give approval on my design proposals once drafted.</p>
+
+<p>I revised the proposal across the following two weeks. The main change was reframing WoundPilot from a clinically-positioned product to an <strong>MVP</strong>, with appropriately softened deliverables language, a Gantt chart with documentation slots added, and GUI design listed as an area for further investigation. Submitted the revised proposal via Blackboard on 23 February.</p>
+
+<p>Official sign-off feedback arrived around mid-March. Following sign-off, Bohuš and I had a Zoom call where he suggested reframing the project once more, this time from MVP to <strong>proof of concept</strong>, on the grounds that this framing better matches what the project can credibly deliver and assess. We also agreed to revise the research question to reflect the newer framing, and to introduce a concrete success criterion of ≥80% etiology agreement with specialist judgment across ten clinical test cases before the Progress Review. The updated research question became: <em>"Can combining iPhone LiDAR-based wound measurement with rule-based clinical reasoning in a mobile application provide clinically useful outputs for chronic wound assessment?"</em></p>
+
+<p>Dr. Lang was confirmed as clinical advisor and validation partner during this period. His role would be to validate the diagnostic logic, advise on Slovak medical terminology, and provide final usability feedback against the ten clinical test cases.</p>
     <div class="entry-refs">
       <h4>References</h4>
       <a href="https://doi.org/10.3390/biomedinformatics4040126">Griffa et al. (2024), Artificial Intelligence in Wound Care: A Narrative Review of the Currently Available Mobile Apps for Automatic Ulcer Segmentation</a>
@@ -462,70 +466,53 @@ body {
   </div>
 </article>
 
-  <!-- ===== WEEK 1 ===== -->
-  <article class="entry">
-    <div class="entry-date">March 2 – 8, 2026 <span class="entry-week">Week 1</span></div>
-    <h2 class="entry-title">Project Kickoff, Core Architecture & Patient Management</h2>
-    <div class="entry-tags">
-      <span class="tag tag-dev">Development</span>
-      <span class="tag tag-milestone">Milestone</span>
+
+<!-- ===== WEEK 1 ===== -->
+<article class="entry">
+  <div class="entry-date">March 2 – 8, 2026 <span class="entry-week">Week 1</span></div>
+  <h2 class="entry-title">Project Kickoff & Authentication Foundation</h2>
+  <div class="entry-tags">
+    <span class="tag tag-dev">Development</span>
+    <span class="tag tag-milestone">Milestone</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>With the proposal in the final stages of sign-off, development started. Created the Xcode project as SwiftUI targeting iOS 17+, initialised the Git repository, and set up the Firebase backend with Authentication, Firestore, and Storage services enabled. Established the initial folder structure with clean separation between models, views, and services so the codebase would scale cleanly as features were added.</p>
+    <p>Built the welcome screen, registration flow with form validation, login flow, and the forgot-password view. Configured Firebase Authentication with email/password sign-in and added basic input validation across the auth screens.</p>
+    <p>Sketched the first version of the patient data model in Swift, mapping out the fields that would later be needed by the rules engine (comorbidities, medications, allergies, mobility status) even though most of these would only be implemented later. Began designing the Firestore document structure as a hierarchy of users, patients, wound groups, and individual wound records, with the clinical advisor confirming that this matches how wound records are organised in practice.</p>
+
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://firebase.google.com/docs/firestore/security/get-started">Firebase, Firestore Security Rules Documentation</a>
+      <a href="https://firebase.google.com/docs/firestore/data-model">Firebase, Firestore Data Model Documentation</a>
+      <a href="https://developer.apple.com/documentation/swiftui/">Apple, SwiftUI Documentation</a>
     </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>With the project proposal approved, development began in earnest. Building on the market research conducted during the proposal phase — which identified a clear gap in digital wound assessment tools for non-specialist community healthcare providers — I set up the full technical foundation for WoundPilot. The Xcode project was created with SwiftUI targeting iOS 17+, and the Firebase backend was configured with Authentication, Firestore, and Storage services.</p>
-      <p>The initial project structure was established with clean separation between models, views, and services. I implemented the welcome screen, login/registration flow with form validation, a forgot password view, and the initial Terms and Conditions and Privacy Policy screens — essential for a healthcare application from day one.</p>
-      <p>Moving quickly into core functionality, I designed and implemented the Firestore data models for patients, wound groups, and individual wound records using a hierarchical structure: users → patients → wound groups → wounds. Full CRUD operations were built for patient records. The wound history view was implemented with Firestore persistence, a healing trajectory graph was added using SwiftUI, and wound image capture was built with dual-source support — camera or photo library. A wound grouping system was created to organise wounds by anatomical region, and a quick analysis mode was added for rapid assessments without full patient registration.</p>
+  </div>
+</article>
 
-      <h3>Problems Encountered</h3>
-      <p>Firebase security rules required careful design to ensure complete data isolation between clinician accounts. Designing the Firestore document structure meant balancing query efficiency with logical data organisation — nested subcollections add complexity to both queries and cascade deletions. I also evaluated whether to use machine learning or a rule-based system for the clinical reasoning engine.</p>
-
-      <h3>Solutions Found</h3>
-      <p>Implemented Firestore security rules using the <code>request.auth.uid</code> matching pattern for per-user data isolation. Adopted a hierarchical Firestore structure mirroring the clinical workflow, which my clinical advisor confirmed matches how wound records are organised in practice. Chose a deterministic rule-based engine over ML for transparency, GDPR compliance, and explainable outputs.</p>
-
-      <h3>Personal Development</h3>
-      <p>The market research during the proposal phase showed that while wound care apps exist, very few combine measurement, diagnosis, and treatment recommendations in a single tool — and none offer LiDAR-based measurement on curved surfaces. Early consultation with my clinical advisor shaped the data architecture significantly, particularly the wound grouping approach. Discussed the rule-based vs. ML decision with my supervisor, who agreed it was well-justified.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://firebase.google.com/docs/firestore/security/get-started">Firebase Security Rules Documentation</a>
-        <a href="https://firebase.google.com/docs/firestore/data-model">Firestore Data Model Documentation</a>
-        <a href="https://developer.apple.com/documentation/swiftui/">Apple SwiftUI Documentation</a>
-      </div>
-    </div>
-  </article>
 
   <!-- ===== WEEK 2 ===== -->
-  <article class="entry">
-    <div class="entry-date">March 9 – 15, 2026 <span class="entry-week">Week 2</span></div>
-    <h2 class="entry-title">Patient Intake Enhancement, Dashboard Redesign & Bilingual Support</h2>
-    <div class="entry-tags">
-      <span class="tag tag-dev">Development</span>
-      <span class="tag tag-milestone">Milestone</span>
-      <span class="tag tag-fix">Bug Fix</span>
+<article class="entry">
+  <div class="entry-date">March 9 – 15, 2026 <span class="entry-week">Week 2</span></div>
+  <h2 class="entry-title">Patient Management & Firestore Data Layer</h2>
+  <div class="entry-tags">
+    <span class="tag tag-dev">Development</span>
+    <span class="tag tag-milestone">Milestone</span>
+  </div>
+  <div class="entry-body">
+    <h3>Work Done</h3>
+    <p>Built out the patient management module on top of the authentication foundation from the previous week. Implemented the patient list view, the add-patient form, the edit-patient view, and the patient detail view, with full create, read, update and delete operations against Firestore. The patient model was extended beyond the initial sketch to include the clinical fields that the rules engine would later depend on: comorbidities, medications, allergies, and mobility status.</p>
+    <p>Finalised the Firestore document structure as a hierarchy of users, patients, wound groups, and individual wound records. Wrote Firestore security rules using the <code>request.auth.uid</code> matching pattern so that each clinician account can only access its own data, with no cross-account leakage possible. Audited every read and write path against the rules to confirm the document references in the app code actually matched the paths protected by the rules.</p>
+    <p>Set up <code>StyleGuide.swift</code> as a centralised design system, defining the colour palette, typography scale, spacing tokens, and shared component styles. Putting this in place early meant that every screen built from this point onward would inherit a consistent visual language without me having to redo styling decisions on each new view.</p>
+
+    <div class="entry-refs">
+      <h4>References</h4>
+      <a href="https://firebase.google.com/docs/firestore/security/get-started">Firebase, Firestore Security Rules Documentation</a>
+      <a href="https://firebase.google.com/docs/firestore/data-model">Firebase, Firestore Data Model Documentation</a>
+      <a href="https://developer.apple.com/design/human-interface-guidelines/foundations/typography">Apple, Human Interface Guidelines: Typography</a>
     </div>
-    <div class="entry-body">
-      <h3>Work Done</h3>
-      <p>Extended the patient model with clinically relevant fields — comorbidities, medications, allergies, and mobility status — essential for the rules engine to make informed dressing recommendations. A patient search feature was implemented, and the quick analysis flow was refined for triage situations. Several SwiftUI deprecation warnings were resolved by migrating from NavigationView to NavigationStack.</p>
-      <p>The dashboard underwent a complete redesign, moving from a basic list to a tab-based navigation with clinical focus, including a "tip of the day" feature for wound care education. I created <code>StyleGuide.swift</code> — a centralised design system defining colours, typography, spacing, and component styles for visual consistency throughout the app.</p>
-      <p>A major milestone this week was implementing complete English/Slovak bilingual support. This involved creating a centralised <code>LocalizedStrings.swift</code> with over 4,250 string pairs covering all UI text, medical terminology, clinical descriptions, and questionnaire content. A language picker allows clinicians to switch between languages. The Slovak translations were validated with my clinical advisor, who practises in Slovakia — the primary target market for clinical testing.</p>
-
-      <h3>Problems Encountered</h3>
-      <p>A race condition appeared with the typewriter animation on the dashboard. Managing 4,250+ localised string pairs was challenging, particularly for medical terminology where Slovak terms required clinical verification — some medical terms don't have direct translations. The wound saving had a bug where data wasn't persisting due to incorrect Firestore document references.</p>
-
-      <h3>Solutions Found</h3>
-      <p>Resolved the race condition by adding proper state management to the animation lifecycle. Adopted a structured localisation approach with consistent key naming and grouped strings by feature area. Fixed Firestore references by auditing collection paths. My clinical advisor reviewed all Slovak medical terminology for accuracy.</p>
-
-      <h3>Personal Development</h3>
-      <p>Learned the importance of establishing a design system early — StyleGuide.swift has already eliminated inconsistent styling decisions. The bilingual work highlighted how medical terminology is nuanced across languages, reinforcing the need for expert review rather than relying on direct translation. Discussed the localisation strategy with my supervisor.</p>
-
-      <div class="entry-refs">
-        <h4>References</h4>
-        <a href="https://developer.apple.com/documentation/xcode/localization">Apple Localization Guide</a>
-        <a href="https://developer.apple.com/documentation/swiftui/navigationstack">Apple NavigationStack Documentation</a>
-        <a href="https://developer.apple.com/design/human-interface-guidelines/foundations/typography">Apple HIG — Typography</a>
-      </div>
-    </div>
-  </article>
+  </div>
+</article>
 
   <!-- ===== WEEK 3 ===== -->
   <article class="entry">
